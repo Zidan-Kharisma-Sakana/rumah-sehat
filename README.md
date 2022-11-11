@@ -18,7 +18,7 @@
 | 2006597140 | Farah Sausan Aulita Adinata | - |
 | 1906353662 | Alifah Azka Nisrina | - |
 ---
-**Kontrak Tahap 1 Tugas Akhir**
+**Kontrak Tahap 2 Tugas Akhir**
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
@@ -28,7 +28,7 @@
 | 2006597140 | Farah Sausan Aulita Adinata | 8, 9 |
 | 1906353662 | Alifah Azka Nisrina | 12, 13 |
 ---
-**Kontrak Tahap 1 Tugas Akhir**
+**Kontrak Tahap 3 Tugas Akhir**
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
