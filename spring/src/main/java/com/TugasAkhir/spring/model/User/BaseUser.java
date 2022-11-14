@@ -1,13 +1,9 @@
 package com.TugasAkhir.spring.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+// To Lecturer/TA: All models were written with the help of everyone
 
 @MappedSuperclass
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
