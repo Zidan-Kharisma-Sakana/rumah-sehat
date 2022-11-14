@@ -25,9 +25,6 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/login-sso", "/validate-ticket", "/").permitAll()
-                .antMatchers("/user/all", "/user/delete/**", "/user/add").hasAuthority("Admin")
-                .antMatchers("/user/update-password.html").authenticated()
-                .antMatchers("/penyelenggara/add").hasAuthority("Manajer")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -43,13 +40,13 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .passwordEncoder(encoder())
+                .withUser("ayu")
+                .password(encoder().encode("apapA"))
+                .roles("ADMIN");
     }
 
 }
