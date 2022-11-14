@@ -32,9 +32,9 @@
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
-| 2006463881 | Zidan Kharisma Adidarma | 16, 17 |
+| 2006463881 | Zidan Kharisma Adidarma | 16, 19 |
 | 2006596926 | Brev William Fiden Saragih | 2, 3 |
 | 2006534764 | Rayyan Azka Ihsanuddin | 6, 7|
 | 2006597140 | Farah Sausan Aulita Adinata | 10, 11 |
-| 1906353662 | Alifah Azka Nisrina | 18, 19 |
+| 1906353662 | Alifah Azka Nisrina | 18, 17 |
 ---
