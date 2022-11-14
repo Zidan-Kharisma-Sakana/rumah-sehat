@@ -1,4 +1,4 @@
-package com.TugasAkhir.spring.config.security.xml;
+package com.TugasAkhir.spring.security.xml;
 
 import lombok.Getter;
 import lombok.Setter;
