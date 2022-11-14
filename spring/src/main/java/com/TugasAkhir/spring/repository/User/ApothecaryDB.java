@@ -1,4 +1,7 @@
 package com.TugasAkhir.spring.repository.User;
 
-public interface ApothecaryDB {
+import com.TugasAkhir.spring.model.User.ApothecaryModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ApothecaryDB extends JpaRepository<ApothecaryModel, String> {
 }

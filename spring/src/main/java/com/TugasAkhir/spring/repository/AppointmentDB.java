@@ -1,4 +1,7 @@
 package com.TugasAkhir.spring.repository;
 
-public interface AppointmentDB {
+import com.TugasAkhir.spring.model.AppointmentModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AppointmentDB extends JpaRepository<AppointmentModel, String> {
 }
