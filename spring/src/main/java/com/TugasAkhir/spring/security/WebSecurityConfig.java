@@ -1,4 +1,4 @@
-package com.TugasAkhir.spring.config.security;
+package com.TugasAkhir.spring.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -44,8 +44,8 @@ public class WebSecurityConfig {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .passwordEncoder(encoder())
-                .withUser("ayu")
-                .password(encoder().encode("apapA"))
+                .withUser("user")
+                .password(encoder().encode("password"))
                 .roles("ADMIN");
     }
 
