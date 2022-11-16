@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // Notes: Please use english verb/adjective to describe your path
-@RestController
+@Controller
 @RequestMapping("/user")
 public class UserController {
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // Notes: Please use english verb/adjective to describe your path
-@RestController
+@Controller
 public class AuthController {
     @GetMapping("/")
     public String Home(Model model){
