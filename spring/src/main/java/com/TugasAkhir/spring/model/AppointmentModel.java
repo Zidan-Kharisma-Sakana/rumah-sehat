@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="appointment")
@@ -40,4 +41,9 @@ public class AppointmentModel {
     @OneToOne
     @JoinColumn(name = "invoice_code")
     private InvoiceModel invoice;
+
+    @OneToOne
+    @JoinColumn(name = "prescription_code")
+    private PrescriptionModel prescription;
+    
 }
