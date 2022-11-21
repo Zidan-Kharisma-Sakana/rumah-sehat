@@ -24,6 +24,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/auth/login-sso", "/auth/validate-ticket").permitAll()
                 .anyRequest().authenticated()
                 .and()
