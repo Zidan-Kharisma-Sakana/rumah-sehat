@@ -148,18 +148,24 @@ class _LoginPageState extends State<LoginPage> {
                       _formKey.currentState!.save();
                       print(_name+_password);
                       final response = await http.get(
-                          Uri.parse("http://localhost:8080/api/user/test"),
+                          Uri.parse("http://localhost:8080/api/auth/test"),
                           );
                       final Map parsed = json.decode(response.body);
+                      print(parsed);
                       if (response.statusCode == 200) {
-                        _loginUser(parsed['username'], parsed['email'], parsed['jwtToken']);
+                        _loginUser(parsed['name'], parsed['email'], parsed['jwtToken']);
                         setState(() {
                           _success = true;
                         });
-                      }
-                      setState(() {
-                        _message = parsed['message'];
+                        setState(() {
+                        _message = "Berhasil";
                       });
+                      } else{
+                        setState(() {
+                        _message = "Tidak berhasil";
+                      });
+                      }
+
                     }
                   },
                 ),
