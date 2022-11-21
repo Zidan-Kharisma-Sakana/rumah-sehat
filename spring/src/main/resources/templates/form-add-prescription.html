@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>BelajarBelajar</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<body>
+<nav th:replace="fragments/fragment :: navbar(page = 'Course')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Course</h2>
+                <br>
+                <form th:action="@{'/prescription/' + ${idAppointment} + '/add" th:object="${prescriptiom}" method="POST">
+                    
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <input type="hidden" name="createdAt" th:field="*{createdAt}"/>
+                    <input type="hidden" name="isDone" th:field="*{isDone}"/>
+                    <input type="hidden" name="confirmer" th:field="*{confirmer}"/>
+                    <input type="hidden" name="appointment" th:field="*{appointment}"/>
+                    
+
+                    
+                    <br>
+                    <table class="table">
+                        <thead>
+                        <th>Penyelenggara</th>
+                        <th>
+                            <button class="btn btn-primary" type="submit" name="addRow">Tambah Row</button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="penyelenggara, iterationStatus : *{listPrescribe}">
+                            <td>
+                                <select name="noPenyelenggara" th:field="*{listPrescribe[__${iterationStatus.index}__].noPenyelenggara}"
+                                        class="form-control">
+                                    <div th:each="DrugEx, iterationStatus2 : ${listDrufExisting}">
+                                        <option th:value="${DrugEx.id}" th:text="${DrugEx.name}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <input required class="form-control" type="text" th:field="{DrugEx.quantity}"/>
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
+                                        name="deleteRow">Hapus</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary" type="submit" name="save">Submit</button>
+                    <a class="btn btn-primary" href="/">Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

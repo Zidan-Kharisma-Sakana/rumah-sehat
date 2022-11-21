@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>BelajarBelajar</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js " th:remove="tag"></object>
+</head>
+<body>
+    <nav th:replace="fragments/fragment :: navbar(page = 'Course')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Appointment</h2>
+                <br>
+                <p th:text="'Kode: ' + ${course.code}"></p>
+                <p th:text="'Waktu Awal: ' + ${course.nameCourse}"></p>
+                <p th:text="'Nama Dokter: ' + ${course.description}"></p>
+                <p th:text="'Nama Pasien: ' + ${course.jumlahSks}"></p>
+               
+                
+                <br>
+                <a class="btn btn-primary" href="/\">Kembali</a>
+                
+                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Save</a>
+                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Detail resep</a>
+                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Add resep</a>
+            </div>
+        </div>
+    </div>
+</div>
+ 
