@@ -23,7 +23,7 @@
             <span style="color: red">Invalid username and password.</span>
           </div>
           <br>
-          <form th:action="@{/auth/login}" method="POST">
+          <form th:action="@{/login}" method="post">
             <div class="row form-group">
               <label class="col-sm-4">Username:</label>
               <input type="text" class="col-sm-8 form-control input-sm" name="username">
@@ -36,7 +36,7 @@
               <button type="submit" class="btn btn-primary">Sign In</button>
             </div>
             <div>
-              atau <a th:href="@{/auth/login-sso}">Masuk sebagai Admin (SSO UI)</a>
+              atau <a th:href="@{/login-sso}">Masuk sebagai Admin (SSO UI)</a>
             </div>
           </form>
         </div>

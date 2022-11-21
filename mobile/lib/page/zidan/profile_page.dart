@@ -6,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/widget/button_widget.dart';
 
-Future<Profile> fetchProfile(String username) async {
-  final response = await http
-      .get(Uri.parse('http://localhost:8000/$username'));
+Future<Profile> fetchProfile(String jwtToken) async {
+  final response = await http.get(Uri.parse('http://localhost:8081/api/user'), headers: <String, String>{
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Authorization': 'Bearer $jwtToken'
+  });
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -22,24 +24,24 @@ Future<Profile> fetchProfile(String username) async {
 }
 
 class Profile {
-  final String username;
+  final String name;
   final String email;
-  final String bod;
-  final String bio;
+  final int age;
+  final int balance;
 
   Profile({
-    required this.username,
+    required this.name,
     required this.email,
-    required this.bod,
-    required this.bio,
+    required this.age,
+    required this.balance,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-        username: json['username'],
+        name: json['name'],
         email: json['email'],
-        bod: json['bod'],
-        bio: json['bio']);
+        age: json['age'],
+        balance: json['balance']);
   }
 }
 
@@ -56,7 +58,10 @@ class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
-const urlImage = 'https://64.media.tumblr.com/b2274200b6c46495f31c1e0a6678dc86/05ebb2b05dc70fb3-60/s640x960/a42b3a3ccd9fdf24d376508c7e223fb0db40de08.jpg';
+
+const urlImage =
+    'https://64.media.tumblr.com/b2274200b6c46495f31c1e0a6678dc86/05ebb2b05dc70fb3-60/s640x960/a42b3a3ccd9fdf24d376508c7e223fb0db40de08.jpg';
+
 class _ProfilePageState extends State<ProfilePage> {
   late String name;
   late String jwtToken;
@@ -65,12 +70,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     name = widget.name;
     jwtToken = widget.jwtToken;
     email = widget.email;
-    futureProfile = fetchProfile(name);
+    futureProfile = fetchProfile(jwtToken);
   }
 
   Widget buildField(String judul, String isi) {
@@ -104,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const Icon(Icons.mode_edit_outline, size: 28),
           const SizedBox(width: 16),
           const Text(
-            "Edit Profile",
+            "Tambah Saldo",
             style: TextStyle(fontSize: 22, color: Colors.white),
           ),
         ],
@@ -143,10 +147,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         buildField("Nama", name),
                         buildField("Email", email),
-                        buildField("Birthday", snapshot.data!.bod),
-                        buildField("Deskripsi diri", snapshot.data!.bio),
+                        buildField("Umur", snapshot.data!.age.toString()),
+                        buildField("Saldo", snapshot.data!.balance.toString()),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal:60),
+                          padding: const EdgeInsets.symmetric(horizontal: 60),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size.fromHeight(50),
