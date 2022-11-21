@@ -18,7 +18,7 @@ public class BaseUser {
     private String uuid;
 
     @NotNull
-    private String name;
+    private String role;
 
     @NotNull
     @Column(unique=true)

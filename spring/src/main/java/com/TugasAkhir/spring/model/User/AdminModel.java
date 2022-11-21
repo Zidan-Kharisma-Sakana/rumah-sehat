@@ -18,5 +18,5 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class AdminModel extends BaseUser {
     @NotNull
-    private String role;
+    private String name;
 }

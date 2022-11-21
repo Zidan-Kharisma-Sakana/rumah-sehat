@@ -20,7 +20,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PatientModel extends BaseUser{
     @NotNull
-    private String role;
+    private String name;
 
     @NotNull
     private Long balance;

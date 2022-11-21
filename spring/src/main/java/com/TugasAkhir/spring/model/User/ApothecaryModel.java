@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ApothecaryModel extends BaseUser {
     @NotNull
-    private String role;
+    private String name;
 
     @OneToMany(mappedBy = "confirmer")
     private List<PrescriptionModel> listConfirmed;
