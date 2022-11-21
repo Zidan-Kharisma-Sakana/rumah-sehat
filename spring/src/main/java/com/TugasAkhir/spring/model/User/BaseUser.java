@@ -3,6 +3,7 @@ package com.TugasAkhir.spring.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
 public class BaseUser {
     @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String uuid;
 
     @NotNull
