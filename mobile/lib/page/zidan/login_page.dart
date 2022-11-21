@@ -23,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   late String _password;
   late Future<String> _email;
   late Future<String> _username;
-    late Future<String> _jwtToken;
+  late Future<String> _jwtToken;
   late String _message;
   late bool _success;
 
@@ -36,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Future<void> _loginUser(String username, String email, String jwtToken) async {
+  Future<void> _loginUser(
+      String username, String email, String jwtToken) async {
     final SharedPreferences prefs = await _prefs;
     setState(() {
       _email = prefs.setString('email', email).then((bool success) {
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
       _username = prefs.setString('username', username).then((bool success) {
         return username;
       });
-      _jwtToken = prefs.setString("jwtToken", jwtToken).then((value){
+      _jwtToken = prefs.setString("jwtToken", jwtToken).then((value) {
         return jwtToken;
       });
     });
@@ -57,8 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         hintText: "contoh: Susilo Bambang",
         labelText: "Nama Lengkap",
         icon: const Icon(Icons.people),
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       validator: (value) {
         if (value!.isEmpty) {
@@ -79,8 +79,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: InputDecoration(
         labelText: "Password",
         icon: const Icon(Icons.security),
-        border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       validator: (value) {
         if (value!.isEmpty) {
@@ -109,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 _message != ''
                     ? AlertDialog(
-                        title: const Text('Perhatian, pengguna'),
+                        title: const Text('Notification:'),
                         content: Text(_message),
                         actions: <Widget>[
                           TextButton(
@@ -146,26 +145,30 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      print(_name+_password);
-                      final response = await http.get(
-                          Uri.parse("http://localhost:8080/api/auth/test"),
-                          );
-                      final Map parsed = json.decode(response.body);
-                      print(parsed);
+                      print(_name + _password);
+                      final response = await http.post(
+                          Uri.parse("http://localhost:8081/api/auth/login"),
+                          headers: <String, String>{
+                            'Content-Type': 'application/json;charset=UTF-8',
+                          },
+                          body: jsonEncode(<String, String>{
+                            'username': _name,
+                            'password': _password
+                          }));
+                      print(response.body);
                       if (response.statusCode == 200) {
-                        _loginUser(parsed['name'], parsed['email'], parsed['jwtToken']);
+                        final Map parsed = json.decode(response.body);
+                        _loginUser(parsed['name'], parsed['email'],
+                            parsed['jwtToken']);
                         setState(() {
                           _success = true;
+                          _message = "Berhasil Masuk";
                         });
+                      } else {
                         setState(() {
-                        _message = "Berhasil";
-                      });
-                      } else{
-                        setState(() {
-                        _message = "Tidak berhasil";
-                      });
+                          _message = "Tidak berhasil Masuk, pastikan username dan password benar";
+                        });
                       }
-
                     }
                   },
                 ),

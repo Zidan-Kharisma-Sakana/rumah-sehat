@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:';
 import 'package:http/http.dart' as http;
 
@@ -15,6 +16,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
+  late String _username;
+  late int _age;
   late String _name;
   late String _email;
   late String _password;
@@ -30,10 +33,55 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  Widget _buildUserName() {
+  Widget _buildUsername() {
     return TextFormField(
       decoration: InputDecoration(
-        hintText: "contoh: Susilo Bambang",
+        hintText: "Contoh: Shio-chan",
+        labelText: "Username Pasien",
+        icon: const Icon(Icons.class_rounded),
+        border:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+      ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Username tidak boleh kosong';
+        }
+        return null;
+      },
+      onSaved: (value) {
+        _username = value!;
+      },
+    );
+  }
+
+    Widget _buildAge() {
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: "Usia Pasien",
+        icon: const Icon(Icons.hourglass_bottom),
+        border:
+            OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
+      ),
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+    FilteringTextInputFormatter.digitsOnly
+    ],
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Usia tidak boleh kosong';
+        }
+        return null;
+      },
+      onSaved: (value) {
+        _age = int.parse(value!);
+      },
+    );
+  }
+
+  Widget _buildName() {
+    return TextFormField(
+      decoration: InputDecoration(
+        hintText: "contoh: Shioriko Mifune",
         labelText: "Nama Lengkap Pasien",
         icon: const Icon(Icons.people),
         border:
@@ -54,6 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget _buildEmail() {
     return TextFormField(
       decoration: InputDecoration(
+        hintText: "Contoh: ShiorikoMifune@Nijigasaki.com",
         labelText: "Email",
         icon: const Icon(Icons.mail),
         border:
@@ -155,9 +204,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                 Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: _buildUserName()),
+                    child: _buildUsername()),
+                Padding(
+                    padding: const EdgeInsets.all(8.0), child: _buildName()),
                 Padding(
                     padding: const EdgeInsets.all(8.0), child: _buildEmail()),
+                Padding(
+                    padding: const EdgeInsets.all(8.0), child: _buildAge()),
                 Padding(
                     padding: const EdgeInsets.all(8.0), child: _buildPass()),
                 Padding(
@@ -173,25 +226,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       _formKey.currentState!.save();
                       final response = await http.post(
                           Uri.parse(
-                              "http://localhost:8000/api/auth/"),
+                              "http://localhost:8081/api/auth/signup"),
                           headers: <String, String>{
                             'Content-Type': 'application/json;charset=UTF-8',
                           },
-                          body: jsonEncode(<String, String>{
-                            // print(response.headers.toString());
+                          body: jsonEncode(<String, Object>{
+                            'name': _name,
                             'email': _email,
-                            'username': _name,
-                            'password': _password
+                            'username': _username,
+                            'password': _password,
+                            'age': _age,
                           }));
-                      final Map parsed = json.decode(response.body);
                       if (response.statusCode == 200) {
                         setState(() {
+                          final Map parsed = json.decode(response.body);
                           _success = true;
+                          _message = "Berhasil Membuat Akun";
                         });
-                      }
+                      }else{
                       setState(() {
-                        _message = parsed['message'];
+                        _message = "Tidak berhasil Membuat Akun, ada akun dengan username atau emai yang sama";
                       });
+                      }
                     }
                   },
                 ),
