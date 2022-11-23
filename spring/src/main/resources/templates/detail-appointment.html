@@ -6,25 +6,25 @@
     <object th:include="fragments/fragment :: js " th:remove="tag"></object>
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar(page = 'Course')"></nav>
+    
 <div class="container">
     <div class="card m-4 p-4">
         <div class="card-body">
             <div class="justify-content-center">
                 <h2>Detail Appointment</h2>
                 <br>
-                <p th:text="'Kode: ' + ${course.code}"></p>
-                <p th:text="'Waktu Awal: ' + ${course.nameCourse}"></p>
-                <p th:text="'Nama Dokter: ' + ${course.description}"></p>
-                <p th:text="'Nama Pasien: ' + ${course.jumlahSks}"></p>
+                <p th:text="'Kode: ' + ${appointment.code}"></p>
+                <p th:text="'Waktu Awal: ' + ${appointment.startTime}"></p>
+                <p th:text="'Nama Dokter: ' + ${appointment.doctor.getName()}"></p>
+                <p th:text="'Nama Pasien: ' + ${appointment.patient.getName()}"></p>
                
                 
                 <br>
-                <a class="btn btn-primary" href="/\">Kembali</a>
+                <a class="btn btn-primary" href="/">Kembali</a>
                 
-                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Save</a>
-                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Detail resep</a>
-                <a  class="btn btn-primary" th:href="@{/} + ${course.code}">Add resep</a>
+                <a  class="btn btn-primary" th:href="@{/} ">Save</a>
+                <a th:if="${appointment.prescription != null}"  class="btn btn-primary" th:href="@{/} ">Detail resep</a>
+                <a  th:if="${appointment.prescription == null}" class="btn btn-primary" th:href="@{/prescription/add/} + ${appointment.code}">Add resep</a>
             </div>
         </div>
     </div>

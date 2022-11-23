@@ -26,7 +26,7 @@ public class AppointmentController {
     
     @GetMapping(value = "/detail/{id}")
     public String detailAppointment(@PathVariable String id,Model model, Principal principal){
-        AppointmentModel appointment = appointmentService.findById(id);
+        AppointmentModel appointment = appointmentService.findByCode(id);
         // role = ...
 
         if(appointment==null) {
@@ -40,7 +40,7 @@ public class AppointmentController {
 
     @PostMapping(value = "detail/{id}/save")
     public String saveAppointment(@PathVariable String id, Model model, Principal principal){
-        AppointmentModel appointment = appointmentService.findById(id);
+        AppointmentModel appointment = appointmentService.findByCode(id);
         int status = 0;
         if(appointment==null) {
             status=1;

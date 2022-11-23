@@ -16,4 +16,6 @@ public class DrugService {
     public List<DrugModel> viewAll(){
         return drugDB.findAll();
     }
+
+
 }

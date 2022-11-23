@@ -18,8 +18,8 @@ public class AppointmentService {
         return appointment;
     }
 
-    public AppointmentModel findById(String id){
-        Optional<AppointmentModel> appointment = appointmentDB.findById(id);
+    public AppointmentModel findByCode(String code){
+        Optional<AppointmentModel> appointment = appointmentDB.findByCode(code);
         if(!appointment.isPresent()){
             return null;
         } else return appointment.get();
