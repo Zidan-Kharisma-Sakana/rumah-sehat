@@ -20,8 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorModel extends BaseUser{
-    @Id
-    private String uuid;
+    @NotNull
+    private String name;
 
     @NotNull
     private Long fee;

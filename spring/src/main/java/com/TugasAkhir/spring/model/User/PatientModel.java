@@ -19,8 +19,8 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PatientModel extends BaseUser{
-    @Id
-    private String uuid;
+    @NotNull
+    private String name;
 
     @NotNull
     private Long balance;

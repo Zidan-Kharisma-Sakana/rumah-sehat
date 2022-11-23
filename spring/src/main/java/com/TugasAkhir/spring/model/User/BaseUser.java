@@ -1,35 +1,37 @@
 package com.TugasAkhir.spring.model.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 // To Lecturer/TA: All models were written with the help of everyone
 
-@MappedSuperclass
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
 @Getter
 @Setter
 public class BaseUser {
-    // To Lecturer/TA/Friends :
-    // I do not include uuid here because spring requires every model need at
-    // least 1 more attributes from its parent. In the table models,
-    // AdminModel had none so I couldn't put uuid here
-    @NotNull
-    private String name;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String uuid;
 
     @NotNull
     private String role;
 
     @NotNull
+    @Column(unique=true)
     private String username;
 
     @NotNull
     private String password;
 
     @NotNull
+    @Column(unique=true)
     private String email;
 }

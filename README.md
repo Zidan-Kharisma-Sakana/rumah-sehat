@@ -22,9 +22,9 @@
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
-| 2006463881 | Zidan Kharisma Adidarma | 14, 15|
+| 2006463881 | Zidan Kharisma Adidarma | 2, 3|
 | 2006596926 | Brev William Fiden Saragih | 1, git |
-| 2006534764 | Rayyan Azka Ihsanuddin | 4, 5 |
+| 2006534764 | Rayyan Azka Ihsanuddin | 4, 15 |
 | 2006597140 | Farah Sausan Aulita Adinata | 8, 9 |
 | 1906353662 | Alifah Azka Nisrina | 12, 13 |
 ---
@@ -32,8 +32,8 @@
 
 | NPM | Nama Lengkap | Fitur yang akan diselesaikan  |
 | ----------| --- | ---------- | 
-| 2006463881 | Zidan Kharisma Adidarma | 16, 19 |
-| 2006596926 | Brev William Fiden Saragih | 2, 3 |
+| 2006463881 | Zidan Kharisma Adidarma | 5, 19 |
+| 2006596926 | Brev William Fiden Saragih | 14, 16 |
 | 2006534764 | Rayyan Azka Ihsanuddin | 6, 7|
 | 2006597140 | Farah Sausan Aulita Adinata | 10, 11 |
 | 1906353662 | Alifah Azka Nisrina | 18, 17 |

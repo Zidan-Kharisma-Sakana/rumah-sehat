@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "admin")
@@ -16,6 +17,6 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminModel extends BaseUser {
-    @Id
-    private String uuid;
+    @NotNull
+    private String name;
 }
