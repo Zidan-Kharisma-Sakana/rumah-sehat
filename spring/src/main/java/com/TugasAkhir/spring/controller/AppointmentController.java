@@ -91,7 +91,7 @@ public class AppointmentController {
 
         //Buat tagihan
         InvoiceModel invoice = new InvoiceModel();
-        invoice.setCode("BILL-1");
+
         invoice.setDateIssued(LocalDateTime.now());
         invoice.setAppointment(appointment);
         invoice.setIsPaid(false);

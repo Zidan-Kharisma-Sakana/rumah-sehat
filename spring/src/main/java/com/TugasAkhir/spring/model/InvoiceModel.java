@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,6 +21,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class InvoiceModel {
     @Id
+    @GenericGenerator(name = "code", strategy = "com.TugasAkhir.spring.model.InvoiceCodeGenerator")
+    @GeneratedValue(generator = "code")  
+    @Column(name="code")
     private String code;
 
     @NotNull
