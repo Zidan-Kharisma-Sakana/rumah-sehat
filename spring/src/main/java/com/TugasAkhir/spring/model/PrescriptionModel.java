@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PrescriptionModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -33,4 +34,8 @@ public class PrescriptionModel {
 
     @OneToMany(mappedBy = "prescription")
     private List<DrugPrescriptionModel> listPrescribe;
+
+    @OneToOne
+    @JoinColumn(name = "appointment_code")
+    private AppointmentModel appointment;
 }

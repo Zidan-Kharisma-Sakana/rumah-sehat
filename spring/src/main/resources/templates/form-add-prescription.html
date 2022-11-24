@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>RumahSehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+    <script src="https://harvesthq.github.io/chosen/docsupport/jquery-3.2.1.min.js"></script>
+    <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+    <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+    <script>$(function(){ $('select').chosen(); })</script>
+<body>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Resep</h2>
+                <br>
+                <form th:action="@{'/prescription/add/' + ${code} }" th:object="${prescription}" method="POST">
+                    
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <input type="hidden" name="createdAt" th:field="*{createdAt}"/>
+                    <input type="hidden" name="isDone" th:field="*{isDone}"/>
+                    
+                    
+
+                    
+                    <br>
+                    <table class="table">
+                        <thead>
+                        <th>Nama Obat</th>
+                        <th>Kuantitas</th>
+                        <th>
+                            <button class="btn btn-primary" type="submit" name="addRow">Tambah Row</button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="drugPrescribed, iterationStatus : *{listPrescribe}">
+                            <td>
+                                <select class="select form-control" id="id_drug" name="id" th:field="*{listPrescribe[__${iterationStatus.index}__].drug.id}" required>
+                                    <div th:each="DrugEx, iterationStatus2 : ${listDrugExisting}">
+                                        <option th:value="${DrugEx.id}" th:text="${DrugEx.name}"></option>
+                                    </div>
+                                </select>
+                                
+                            </td>
+                            <td>
+                                <input required class="form-control" name="quantity" type="text" th:field="*{listPrescribe[__${iterationStatus.index}__].quantity}"/>
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
+                                        name="deleteRow">Hapus</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary" type="submit" name="save">Submit</button>
+                    <a class="btn btn-primary" th:href="@{/}">Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://harvesthq.github.io/chosen/docsupport/jquery-3.2.1.min.js"></script>
+<script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
+<link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+<script>$(function(){ $('#id_drug').chosen(); })</script>
+</body>
+</html>
