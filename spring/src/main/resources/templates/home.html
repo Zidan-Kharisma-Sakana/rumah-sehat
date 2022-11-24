@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>BelajarBelajar</title>
+    <title>RumahSehat</title>
     <object th:include="fragments/fragment :: css" th:remove="tag" />
     <object th:include="fragments/fragment :: js" th:remove="tag" />
+    <object th:include="fragments/fragment :: font" th:remove="tag" />
 </head>
 <body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="container">
-    <div class="d-flex justify-content-center">
+    <br>
+    <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative">
         <h2 th:text="'Hello '+${#httpServletRequest.remoteUser}+'!'">Login as</h2>
+        <img th:src="@{/img/img1.png}" class="img-fluid" alt="Home illustration image">
+        <h2>Welcome to RumahSehat</h2>
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="5000">
+                    <p>"Good health is not something we can buy. However, it can be an extremely valuable savings account."  – Anne Wilson Schaef</p>
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                    <p>"A fit body, a calm mind, a house full of love. These things cannot be bought – they must be earned." – Naval Ravikant</p>
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                    <p>"Time and health are two precious assets that we don’t recognize and appreciate until they have been depleted."  – Denis Waitley </p>
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                    <p>"I believe that the greatest gift you can give your family and the world is a healthy you." – Joyce Meyer </p>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
     </div>
-    <a href="/logout" >Logout</a>
 </div>
 
 </body>
