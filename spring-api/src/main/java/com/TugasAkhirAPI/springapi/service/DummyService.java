@@ -4,6 +4,7 @@ import com.TugasAkhirAPI.springapi.model.User.AdminModel;
 import com.TugasAkhirAPI.springapi.model.User.ApothecaryModel;
 import com.TugasAkhirAPI.springapi.model.User.DoctorModel;
 import com.TugasAkhirAPI.springapi.model.User.PatientModel;
+import com.TugasAkhirAPI.springapi.repository.AppointmentDB;
 import com.TugasAkhirAPI.springapi.repository.User.AdminDB;
 import com.TugasAkhirAPI.springapi.repository.User.ApothecaryDB;
 import com.TugasAkhirAPI.springapi.repository.User.DoctorDB;
@@ -22,7 +23,7 @@ public class DummyService {
     AdminDB adminDB;
     @Autowired
     ApothecaryDB apothecaryDB;
-
+    
     public void createDummyPatient (){
         PatientModel patient = new PatientModel();
         patient.setBalance(0L);
@@ -65,6 +66,8 @@ public class DummyService {
         admin.setPassword(encrypt("admin"));
         adminDB.save(admin);
     }
+
+
 
     public String encrypt(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

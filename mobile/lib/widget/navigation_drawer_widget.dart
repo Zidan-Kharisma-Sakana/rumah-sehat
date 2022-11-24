@@ -140,7 +140,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                               const SizedBox(height: 3),
                               buildMenuItem(
                                 isLoggedIn: isLoggedIn,
-                                text: 'Page 4',
+                                text: 'Page 4 (Dummy List Appointment)',
                                 icon: Icons.people_alt,
                                 onClicked: () => selectedItem(
                                   context,

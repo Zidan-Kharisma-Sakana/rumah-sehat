@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="drug_prescription")
@@ -21,6 +22,9 @@ public class DrugPrescriptionModel {
     @ManyToOne
     @JoinColumn(name = "drug_id_obat")
     private DrugModel drug;
+    
+    @NotNull
+    private int quantity;
 
     @ManyToOne
     @JoinColumn(name = "prescription_id")

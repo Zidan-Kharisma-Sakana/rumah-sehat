@@ -9,11 +9,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 // To Lecturer/TA: All models were written with the help of everyone
 
-@Getter
-@Setter
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
+@Getter
+@Setter
 public class BaseUser {
     @Id
     @GeneratedValue(generator = "system-uuid")

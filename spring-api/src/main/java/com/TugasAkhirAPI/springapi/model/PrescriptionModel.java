@@ -33,4 +33,8 @@ public class PrescriptionModel {
 
     @OneToMany(mappedBy = "prescription")
     private List<DrugPrescriptionModel> listPrescribe;
+
+    @OneToOne
+    @JoinColumn(name = "appointment_code")
+    private AppointmentModel appointment;
 }
