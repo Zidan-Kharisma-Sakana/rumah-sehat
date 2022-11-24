@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   child: const Text(
                     "Submit",
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
@@ -166,7 +166,8 @@ class _LoginPageState extends State<LoginPage> {
                         });
                       } else {
                         setState(() {
-                          _message = "Tidak berhasil Masuk, pastikan username dan password benar";
+                          _message =
+                              "Tidak berhasil Masuk, pastikan username dan password benar";
                         });
                       }
                     }

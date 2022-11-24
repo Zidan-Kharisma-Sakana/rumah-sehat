@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>RumahSehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js " th:remove="tag"></object>
+</head>
+<body>
+    
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Appointment</h2>
+                <br>
+                <p th:text="'Kode: ' + ${appointment.code}"></p>
+                <p th:if="${!appoinment.isDone}" th:text="'Status: Belum Selesai' "></p>
+                <p th:if="${appoinment.isDone}" th:text="'Status: Selesai'"></p>
+                <p th:text="'Waktu Awal: ' + ${appointment.startTime}"></p>
+                <p th:text="'Nama Dokter: ' + ${appointment.doctor.getName()}"></p>
+                <p th:text="'Nama Pasien: ' + ${appointment.patient.getName()}"></p>
+               
+                
+                <br>
+                <a class="btn btn-primary" th:href="@{/}">Kembali</a>
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+ 

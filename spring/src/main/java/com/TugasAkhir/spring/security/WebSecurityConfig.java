@@ -20,8 +20,8 @@ public class WebSecurityConfig {
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/login-sso", "/validate-ticket", "/").permitAll()
-                .antMatchers("/appointment/**").permitAll()
-                .antMatchers("/prescription/**").permitAll()
+                .antMatchers("/appointment/detail/**").hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
+                .antMatchers("/prescription/add/**").hasAuthority("DOCTOR")
                 .antMatchers("/login-sso", "/validate-ticket").permitAll()
                 .antMatchers("/admin").hasAuthority("ADMIN")                                //Cuma contoh buat ngasih akses
                 .antMatchers("/admin_doctor").hasAnyAuthority("ADMIN", "DOCTOR") // Ada di main cntroller

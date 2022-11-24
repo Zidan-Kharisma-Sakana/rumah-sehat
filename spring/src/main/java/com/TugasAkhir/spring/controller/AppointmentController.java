@@ -1,8 +1,13 @@
 package com.TugasAkhir.spring.controller;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.TugasAkhir.spring.model.AppointmentModel;
+import com.TugasAkhir.spring.model.InvoiceModel;
 import com.TugasAkhir.spring.service.AppointmentService;
+import com.TugasAkhir.spring.service.InvoiceService;
 
 
 // Notes: Please use english verb/adjective to describe your path
@@ -20,6 +27,9 @@ import com.TugasAkhir.spring.service.AppointmentService;
 public class AppointmentController {
     @Autowired
     AppointmentService appointmentService;
+
+    @Autowired
+    InvoiceService invoiceService;
     
     //@Autowired
     //UserService userService;
@@ -27,9 +37,16 @@ public class AppointmentController {
     @GetMapping(value = "/detail/{id}")
     public String detailAppointment(@PathVariable String id,Model model, Principal principal){
         AppointmentModel appointment = appointmentService.findByCode(id);
-        // role = ...
+        
+        SecurityContext z = SecurityContextHolder.getContext();
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
+        String role = "";
+        for(GrantedAuthority i: authorities){
+            role = i.getAuthority();
+        }
+        model.addAttribute("role", role);
 
-        if(appointment==null) {
+        if(appointment==null ) {
             return "gagal-view-appointment";
             
         }
@@ -38,7 +55,7 @@ public class AppointmentController {
         return "detail-appointment";
     }
 
-    @PostMapping(value = "detail/{id}/save")
+    @GetMapping(value = "/save/{id}")
     public String saveAppointment(@PathVariable String id, Model model, Principal principal){
         AppointmentModel appointment = appointmentService.findByCode(id);
         int status = 0;
@@ -71,6 +88,17 @@ public class AppointmentController {
         
         appointment.setIsDone(true);
         appointmentService.update(appointment);
+
+        //Buat tagihan
+        InvoiceModel invoice = new InvoiceModel();
+        invoice.setCode("BILL-1");
+        invoice.setDateIssued(LocalDateTime.now());
+        invoice.setAppointment(appointment);
+        invoice.setIsPaid(false);
+        invoice.setAmount(appointment.getDoctor().getFee());
+
+        invoiceService.add(invoice);
+        
 
         return "save-appointment";
     }

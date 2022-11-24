@@ -3,10 +3,14 @@ package com.TugasAkhir.spring.controller;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jmx.export.notification.NotificationPublisherAware;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +25,6 @@ import com.TugasAkhir.spring.model.AppointmentModel;
 import com.TugasAkhir.spring.model.DrugModel;
 import com.TugasAkhir.spring.model.DrugPrescriptionModel;
 import com.TugasAkhir.spring.model.PrescriptionModel;
-import com.TugasAkhir.spring.rest_controller.AppointmentRESTController;
 import com.TugasAkhir.spring.service.AppointmentService;
 import com.TugasAkhir.spring.service.DrugPrescriptionService;
 import com.TugasAkhir.spring.service.DrugService;
@@ -49,6 +52,14 @@ public class PrescriptionController {
         PrescriptionModel newPrescription = new PrescriptionModel();
         AppointmentModel appointment = appointmentService.findByCode(code);
 
+        SecurityContext z = SecurityContextHolder.getContext();
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
+        String role = "";
+        for(GrantedAuthority i: authorities){
+            role = i.getAuthority();
+        }
+        model.addAttribute("role", role);
+        
         if(appointment == null  || appointment.getIsDone() || appointment.getPrescription()!=null){
             return "gagal-add-prescription";
         }

@@ -22,4 +22,6 @@ public class UserRESTController {
     public PatientModel getPatientProfile(Principal principal){
         return patientService.getPatientByUsername(principal.getName());
     }
+
+    
 }

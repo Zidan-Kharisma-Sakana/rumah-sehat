@@ -40,4 +40,8 @@ public class AppointmentModel {
     @OneToOne
     @JoinColumn(name = "invoice_code")
     private InvoiceModel invoice;
+
+    @OneToOne
+    @JoinColumn(name = "prescription_code")
+    private PrescriptionModel prescription;
 }
