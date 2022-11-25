@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>View Apothecary</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar(page = 'User')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>List Apothecary</h2>
+                <br>
+                <a class="btn btn-primary" href="/">Beranda</a>
+                <a th:href="@{/user/add-apothecary}" class="mx-2 btn btn-outline-success">Add Apothecary</a>
+                <br>
+                <br>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Email</th>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="apothecary, iterationStatus : ${listApothecary}"
+                        th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+                        <td th:text="${iterationStatus.count}"></td>
+                        <td th:text="${apothecary.email}"></td>
+                        <td th:text="${apothecary.name}"></td>
+                        <td th:text="${apothecary.username}"></td>
+                        <td>
+                            <a class="btn btn-danger" th:href="@{/user/delete-apothecary/} + ${apothecary.username}">Hapus</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

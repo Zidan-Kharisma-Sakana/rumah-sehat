@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Doctor</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Add Doctor</h2>
+                <br>
+                <form th:action="@{/user/add-doctor}" th:object="${doctor}" method="POST">
+                    <label>Username</label>
+                    <input type="text" name="username" class="form-control">
+
+                    <label>Nama</label>
+                    <input type="text" name="name" class="form-control">
+
+                    <label>E-mail</label>
+                    <input type="text" name="email" class="form-control">
+
+                    <label>Password</label>
+                    <input type="text" name="password" class="form-control" pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+
+                    <label>Fee</label>
+                    <input type="number" name="fee" class="form-control">
+
+                    <input type="hidden" name="role" value="doctor" class="form-control">
+
+                    <br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-link" href="/user/view-doctor">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
