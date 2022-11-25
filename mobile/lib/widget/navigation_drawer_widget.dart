@@ -101,7 +101,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                               const SizedBox(height: 3),
                               buildMenuItem(
                                 isLoggedIn: isLoggedIn,
-                                text: 'Page 1',
+                                text: 'Membuat Appointment',
                                 icon: Icons.check_box,
                                 onClicked: () => selectedItem(
                                   context,
@@ -114,7 +114,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                               const SizedBox(height: 3),
                               buildMenuItem(
                                 isLoggedIn: isLoggedIn,
-                                text: 'Page 2',
+                                text: 'Melihat Appointment',
                                 icon: Icons.note_add_rounded,
                                 onClicked: () => selectedItem(
                                   context,
@@ -127,7 +127,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                               const SizedBox(height: 3),
                               buildMenuItem(
                                 isLoggedIn: isLoggedIn,
-                                text: 'Page 3',
+                                text: 'Melihat Daftar Tagihan',
                                 icon: Icons.schedule,
                                 onClicked: () => selectedItem(
                                   context,
