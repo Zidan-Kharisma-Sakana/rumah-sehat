@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ApothecaryDB extends JpaRepository<ApothecaryModel, String> {
+    ApothecaryModel findByUsername(String username);
 }
