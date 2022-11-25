@@ -1,12 +1,10 @@
 version: '2'
 services:
   web:
-    build:
-      context: spring
+    image: apap-registry.cs.ui.ac.id/zidan.kharisma/apap-tk-059
     restart: always
-    # platform: linux/amd64
     ports:
-      - "8080:8080"
+      - "10059:8080"
     volumes:
       - ./file-storage:/file-storage
       - ./log:/log
@@ -21,7 +19,6 @@ services:
   db:
     image: mariadb:10.4.24
     restart: always
-    # platform: linux/amd64
     env_file:
       - app.env
     volumes:

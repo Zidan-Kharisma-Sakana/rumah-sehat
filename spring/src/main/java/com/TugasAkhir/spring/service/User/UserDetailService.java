@@ -26,7 +26,9 @@ public class UserDetailService  implements UserDetailsService {
         System.out.println(username);
         BaseUser user = userDB.findByUsername(username);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
+        if(user != null){
+            grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
+        }
         return new User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
 }
