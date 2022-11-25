@@ -1,11 +1,52 @@
 package com.TugasAkhir.spring.controller;
 
+import com.TugasAkhir.spring.model.DrugModel;
+import com.TugasAkhir.spring.service.DrugService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Iterator;
+import java.util.List;
 
 // Notes: Please use english verb/adjective to describe your path
 @Controller
 @RequestMapping("/drug")
 public class DrugController {
+
+    @Autowired
+    private DrugService drugService;
+
+    @GetMapping({"/viewall"})
+    public String listDrug(Model model) {
+        List<DrugModel> listDrug = this.drugService.getListDrug();
+        model.addAttribute("listDrug", listDrug);
+        return "viewall-drugs";
+    }
+
+    @GetMapping({"/update/{id}"})
+    public String updateDrugFormPage(@PathVariable String id, Model model) {
+        DrugModel drug = this.drugService.getDrug(id);
+        model.addAttribute("drug", drug);
+        return "form-update-drug";
+    }
+
+    @PostMapping({"/update"})
+    public String updateDrugSubmitPage(@ModelAttribute DrugModel drug, Model model) {
+        DrugModel updatedDrug = this.drugService.updateDrug(drug);
+        List<DrugModel> listCourse = this.drugService.getListDrug();
+        model.addAttribute("drug", updatedDrug);
+        return "update-drug";
+    }
+
+    @GetMapping({"/view/{id}"})
+    public String viewDetailDrug(@PathVariable("id") String id, Model model) {
+        DrugModel drug = this.drugService.getDrug(id);
+        model.addAttribute("drug", drug);
+        return "view-drug";
+    }
+
+
+
 }
