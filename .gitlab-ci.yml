@@ -70,8 +70,8 @@ build-image:
   stage: build-image
   script:
     - echo "Building Docker Image..."
-    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:$CI_COMMIT_SHORT_SHA .
-    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:latest .
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:$CI_COMMIT_SHORT_SHA spring
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:latest spring
 
 publish-image:
   stage: publish-image
