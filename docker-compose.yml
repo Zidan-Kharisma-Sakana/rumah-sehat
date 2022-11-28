@@ -51,8 +51,6 @@ services:
       - web
       - api
     ports:
-      - 80:80
-      - 443:443
       - 6969:8080
     volumes:
       - ./file-storage:/file-storage

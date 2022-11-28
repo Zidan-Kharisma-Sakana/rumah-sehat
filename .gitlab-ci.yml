@@ -24,63 +24,55 @@ stages:
   - publish-image
   - deploy
 
-
-build:
+build-web:
   image: $IMAGE_OPENJDK_GRADLE
   stage: build
   script:
-    - echo "Compiling the code..."
+    - echo "Compiling Web..."
     - cd $CI_PROJECT_DIR/spring
     - sh gradlew clean assemble
   artifacts:
     paths:
       - spring/build/libs/spring-0.0.1-SNAPSHOT.jar
 
-#static-code-analysis:
-#  image: $IMAGE_OPENJDK_GRADLE
-#  stage: test
-#  script:
-#    - echo "Running Static Code Analysis..."
-#    - echo "Checking style..."
-#    - sh $CI_PROJECT_DIR/gradlew checkstyleMain
-#    - echo "Checking duplicated code..."
-#    - sh $CI_PROJECT_DIR/gradlew cpdCheck
-#    - echo "Checking bugs..."
-#    - sh $CI_PROJECT_DIR/gradlew spotbugsMain
-#    - echo "Checking code standard..."
-#    - sh $CI_PROJECT_DIR/gradlew pmdMain
-
-#unit-test:
-#  image: $IMAGE_OPENJDK_GRADLE
-#  stage: test
-#  script:
-#    - echo "Running unit tests..."
-#    - sh $CI_PROJECT_DIR/gradlew test -Dspring.profiles.active=test
-#
-#coverage-test:
-#  image: $IMAGE_OPENJDK_GRADLE
-#  stage: test
-#  needs:
-#    - job: unit-test
-#  script:
-#    - echo "Running coverage tests..."
-
+build-api:
+  image: $IMAGE_OPENJDK_GRADLE
+  stage: build
+  script:
+    - echo "Compiling API..."
+    - cd $CI_PROJECT_DIR/spring-api
+    - sh gradlew clean assemble
+  artifacts:
+    paths:
+      - spring-api/build/libs/spring-api-0.0.1-SNAPSHOT.jar
 
 build-image:
   stage: build-image
   script:
-    - echo "Building Docker Image..."
-    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:$CI_COMMIT_SHORT_SHA spring
-    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:latest spring
+    - echo "Building Web Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:$CI_COMMIT_SHORT_SHA spring
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:latest spring
+    - echo "Building API Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:$CI_COMMIT_SHORT_SHA spring-api
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:latest spring-api
+    - echo "Building Nginx Docker Image..."
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:$CI_COMMIT_SHORT_SHA nginx
+    - docker build -t $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:latest nginx
 
 publish-image:
   stage: publish-image
   script:
-    - echo "Publishing Docker Image..."
+    - echo "Publishing Web Docker Image..."
     - echo $REGISTRY_SERVER
     - echo $REGISTRY_PASSWORD | docker login --username $REGISTRY_USERNAME --password-stdin $REGISTRY_SERVER
-    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:$CI_COMMIT_SHORT_SHA
-    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059:latest
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-web:latest
+    - echo "Publishing API Docker Image..."
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-api:latest
+    - echo "Publishing Nginx Docker Image..."
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_SERVER/zidan.kharisma/apap-tk-059-nginx:latest
 
 deploy:
   stage: deploy
