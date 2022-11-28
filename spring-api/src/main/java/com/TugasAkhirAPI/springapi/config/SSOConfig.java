@@ -1,7 +1,7 @@
 package com.TugasAkhirAPI.springapi.config;
 
 public class SSOConfig {
-    final static public String CLIENT_BASE_URL = "http://localhost:8080";
+    final static public String CLIENT_BASE_URL = "https://apap-059.cs.ui.ac.id";
     final static public String CLIENT_LOGIN = CLIENT_BASE_URL + "/validate-ticket";
     final static public String CLIENT_LOGOUT = CLIENT_BASE_URL + "/logout";
 
