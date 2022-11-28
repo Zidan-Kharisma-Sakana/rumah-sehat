@@ -4,9 +4,7 @@ services:
     build:
       context: spring
     restart: always
-    # platform: linux/amd64
-    ports:
-      - "8080:8080"
+    platform: linux/amd64
     volumes:
       - ./file-storage:/file-storage
       - ./log:/log
@@ -18,6 +16,21 @@ services:
       - frontend-network
       - backend-network
 
+  api:
+    build:
+      context: spring-api
+    restart: always
+    platform: linux/amd64
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
+    env_file:
+      - app.env
+    depends_on:
+      - db
+    networks:
+      - backend-network
+
   db:
     image: mariadb:10.4.24
     restart: always
@@ -26,6 +39,24 @@ services:
       - app.env
     volumes:
       - mysql-db-volume:/var/lib/mysql
+    networks:
+      - backend-network
+  
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx-reverse-proxy
+    restart: unless-stopped
+    depends_on:
+      - web
+      - api
+    ports:
+      - 80:80
+      - 443:443
+      - 6969:8080
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
     networks:
       - backend-network
 
