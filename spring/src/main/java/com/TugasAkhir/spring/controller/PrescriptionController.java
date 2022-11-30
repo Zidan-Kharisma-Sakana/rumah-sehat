@@ -25,10 +25,13 @@ import com.TugasAkhir.spring.model.AppointmentModel;
 import com.TugasAkhir.spring.model.DrugModel;
 import com.TugasAkhir.spring.model.DrugPrescriptionModel;
 import com.TugasAkhir.spring.model.PrescriptionModel;
+import com.TugasAkhir.spring.model.User.ApothecaryModel;
+import com.TugasAkhir.spring.repository.DrugDB;
 import com.TugasAkhir.spring.service.AppointmentService;
 import com.TugasAkhir.spring.service.DrugPrescriptionService;
 import com.TugasAkhir.spring.service.DrugService;
 import com.TugasAkhir.spring.service.PrescriptionService;
+import com.TugasAkhir.spring.service.User.ApothecaryService;
 
 // Notes: Please use english verb/adjective to describe your path
 @Controller
@@ -45,6 +48,9 @@ public class PrescriptionController {
 
     @Autowired
     DrugPrescriptionService drugPrescriptionService;
+
+    @Autowired
+    ApothecaryService apothecaryService;
 
     @GetMapping(value = "/add/{code}")
     public String addPerscription(@PathVariable String code,Principal principal,Model model){
@@ -142,4 +148,88 @@ public class PrescriptionController {
         
         return "add-prescription";
     }
+
+    @GetMapping("/view-all")
+    public String viewAllPrescription(Model model, Principal principal){
+       
+        //get all prescription
+        List<PrescriptionModel> listPrescription = prescriptionService.findAll();
+
+        model.addAttribute("listPrescription", listPrescription);
+        
+        
+        //models
+        return "viewall-prescription";
+
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detailPrescription(@PathVariable String id,Model model, Principal principal){
+        //get prescription
+        PrescriptionModel prescription =prescriptionService.findById(Long.parseLong(id));
+        // get role
+        SecurityContext z = SecurityContextHolder.getContext();
+        //check stock
+        boolean isStockEnough = true;
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
+        String role = "";
+        for(GrantedAuthority i: authorities){
+            role = i.getAuthority();
+        }
+        // check if prescription exists
+        if(prescription== null){
+            return "gagal-view-prescription";
+        }
+        // check stock
+        for (DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
+            Long stock = drugService.getDrug(drugPrescription.getDrug().getId()).getStock();
+            if(stock< drugPrescription.getQuantity()){
+                isStockEnough = false;
+                break;
+            }
+        }
+        
+        //models
+        model.addAttribute("isStockenough", isStockEnough);
+        //models
+        model.addAttribute("role", role);
+        model.addAttribute("prescription", prescription);
+
+        
+        return "detail-prescription";
+
+    }
+
+    @GetMapping("/save/{id}")
+    public String savePrescription(@RequestParam String id,Model model, Principal principal){
+
+        ApothecaryModel apoteker = apothecaryService.getUserByUsername(principal.getName());
+        
+        
+        // get prescription
+        PrescriptionModel prescription = prescriptionService.findById(Long.parseLong(id));
+        // check if prescription exist
+        //check if presctiption is done
+        //check if appointment is done
+        if(prescription==null|| prescription.getIsDone()||prescription.getAppointment().getIsDone()){
+            return "gagal-save-prescription";
+        }
+
+        // check if stock enough
+        for (DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
+            Long stock = drugService.getDrug(drugPrescription.getDrug().getId()).getStock();
+            if(stock< drugPrescription.getQuantity()){
+                return "gagal-save-prescription";
+            }
+        }
+
+        prescription.setIsDone(true);
+        prescription.setConfirmer(apoteker);
+        prescriptionService.update(prescription);
+        
+        return "save-prescription";
+    }
+
+
+
 }
