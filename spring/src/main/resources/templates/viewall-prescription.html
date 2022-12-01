@@ -35,7 +35,7 @@
                         <td th:unless= "${prescription.isDone}">Belum Selesai</td>
                         
                         <td>
-                            <a class="btn btn-sm btn-primary" th:href="@{/prescription/detail} + ${prescription.id}">Detail</a>
+                            <a class="btn btn-sm btn-primary" th:href="@{/prescription/detail/} + ${prescription.id}">Detail</a>
                         </td>
                     </tr>
                     </tbody>

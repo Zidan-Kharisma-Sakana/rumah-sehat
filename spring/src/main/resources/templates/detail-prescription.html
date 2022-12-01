@@ -57,7 +57,7 @@
                     <h2 th:text="'Tidak ada Daftar Obat'"></h2>
                 </div>
                 <a class="btn btn-primary" th:href="@{/}">Kembali</a>
-                <a th:if="${isStockEnough and role=='APOTHECARY' and !prescription.isDone}" class="btn btn-primary" th:href="@{/}">Selesai</a>
+                <a th:if="${isStockEnough and role=='APOTHECARY' and !prescription.isDone}" class="btn btn-primary" th:href="@{/prescription/save/} + ${prescription.id}">Selesai</a>
             
             </div>
         </div>

@@ -225,7 +225,7 @@ public class PrescriptionController {
     }
 
     @GetMapping("/save/{id}")
-    public String savePrescription(@RequestParam String id,Model model, Principal principal){
+    public String savePrescription(@PathVariable String id,Model model, Principal principal){
 
         ApothecaryModel apoteker = apothecaryService.getUserByUsername(principal.getName());
         
@@ -246,19 +246,14 @@ public class PrescriptionController {
                 return "gagal-save-prescription";
             }
         }
-
+        
+        //save prescription
         prescription.setIsDone(true);
         prescription.setConfirmer(apoteker);
         prescriptionService.update(prescription);
 
         // check amount
-        for (DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
-            Long stock = drugService.getDrug(drugPrescription.getDrug().getId()).getStock();
-            if(stock< drugPrescription.getQuantity()){
-                return "gagal-save-prescription";
-            }
-        }
-    
+        
     
         // Invoice
         InvoiceModel invoice = new InvoiceModel();
@@ -267,6 +262,12 @@ public class PrescriptionController {
         invoice.setIsPaid(false);
         invoice.setAmount(prescription.getAppointment().getDoctor().getFee()+ totalBill(prescription));
         invoiceService.add(invoice);
+
+        //save appointment
+        AppointmentModel appointment = prescription.getAppointment();
+        appointment.setInvoice(invoice);
+        appointment.setIsDone(true);
+        appointmentService.update(appointment);
 
         return "save-prescription";
     }

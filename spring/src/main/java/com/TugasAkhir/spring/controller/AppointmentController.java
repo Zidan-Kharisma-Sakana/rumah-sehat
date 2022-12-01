@@ -86,22 +86,22 @@ public class AppointmentController {
         model.addAttribute("appointment", appointment);
         model.addAttribute("status", status);
         
-        appointment.setIsDone(true);
-        appointmentService.update(appointment);
+        
 
         //Buat tagihan
-        if(appointment.getPrescription()== null){
-            InvoiceModel invoice = new InvoiceModel();
-
-            invoice.setDateIssued(LocalDateTime.now());
-            invoice.setAppointment(appointment);
-            invoice.setIsPaid(false);
-            invoice.setAmount(appointment.getDoctor().getFee());
-
-            invoiceService.add(invoice);
-        }
         
-        
+        InvoiceModel invoice = new InvoiceModel();
+
+        invoice.setDateIssued(LocalDateTime.now());
+        invoice.setAppointment(appointment);
+        invoice.setIsPaid(false);
+        invoice.setAmount(appointment.getDoctor().getFee());
+        invoiceService.add(invoice);
+
+
+        appointment.setIsDone(true);
+        appointment.setInvoice(invoice);
+        appointmentService.update(appointment);
 
         return "save-appointment";
     }
