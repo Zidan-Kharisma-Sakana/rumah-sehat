@@ -29,6 +29,7 @@ class Resep {
   final String waktuAwal;
   final String status;
   final int idPrescription;
+  final List<DrugPrescription> listPrescribed;
 
   Resep(
       {required this.id,

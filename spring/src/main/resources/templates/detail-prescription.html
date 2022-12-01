@@ -24,7 +24,7 @@
                 
                 <br>
 
-                <div th:if="*{listPrescribe.size() != 0}">
+                <div th:if="${listDrugs.size() != 0}">
                     
                         <table class="table">
                             <thead>
@@ -37,7 +37,7 @@
                             </thead>
     
                             <tbody>
-                                <tr th:each="drug, iterationStatus : *{listPrescribe}"
+                                <tr th:each="drug, iterationStatus : ${listDrugs}"
                                     th:style="${iterationStatus.even} ? 'font-weight:bold;'">
                                     <td th:text="${iterationStatus.count}"></td>
                                     <td th:text="${drug.getDrug().getName()}"></td>
@@ -53,10 +53,11 @@
                     
                 </div>
 
-                <div th:unless="*{listPrescribe.size() != 0}">
+                <div th:unless="*{listDrugs.size() != 0}">
                     <h2 th:text="'Tidak ada Daftar Obat'"></h2>
                 </div>
                 <a class="btn btn-primary" th:href="@{/}">Kembali</a>
+                <a th:if="${isStockEnough and role=='APOTHECARY' and !prescription.isDone}" class="btn btn-primary" th:href="@{/}">Selesai</a>
             
             </div>
         </div>

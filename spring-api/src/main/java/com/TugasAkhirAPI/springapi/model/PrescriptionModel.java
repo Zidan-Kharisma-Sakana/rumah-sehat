@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PrescriptionModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

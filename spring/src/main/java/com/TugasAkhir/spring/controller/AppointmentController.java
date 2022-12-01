@@ -90,14 +90,17 @@ public class AppointmentController {
         appointmentService.update(appointment);
 
         //Buat tagihan
-        InvoiceModel invoice = new InvoiceModel();
+        if(appointment.getPrescription()== null){
+            InvoiceModel invoice = new InvoiceModel();
 
-        invoice.setDateIssued(LocalDateTime.now());
-        invoice.setAppointment(appointment);
-        invoice.setIsPaid(false);
-        invoice.setAmount(appointment.getDoctor().getFee());
+            invoice.setDateIssued(LocalDateTime.now());
+            invoice.setAppointment(appointment);
+            invoice.setIsPaid(false);
+            invoice.setAmount(appointment.getDoctor().getFee());
 
-        invoiceService.add(invoice);
+            invoiceService.add(invoice);
+        }
+        
         
 
         return "save-appointment";
