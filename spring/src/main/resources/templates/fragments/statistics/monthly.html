@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+<body>
+    <form
+    th:fragment="form(doctors)"
+    class="form-inline my-2 my-lg-0"
+    th:action="@{/statistics/monthly}"
+    method="get"
+  >
+    <h3>Line chart with a month period</h3>
+    <div>
+      <label for="monthly_id_1">Choose 1st Doctor: </label>
+      <select required name="id" id="monthly_id_1">
+        <option value="">&lt;--Not Selected--&gt;</option>
+        <option
+          th:each="option : ${doctors}"
+          th:value="${option.uuid}"
+          th:text="${option.name}"
+        ></option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_id_2">Choose 2nd Doctor: </label>
+      <select name="id" id="monthly_id_2">
+        <option value="">&lt;--Not Selected--&gt;</option>
+        <option
+          th:each="option : ${doctors}"
+          th:value="${option.uuid}"
+          th:text="${option.name}"
+        ></option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_id_3">Choose 3rd Doctor: </label>
+      <select name="id" id="monthly_id_3">
+        <option value="">&lt;--Not Selected--&gt;</option>
+        <option
+          th:each="option : ${doctors}"
+          th:value="${option.uuid}"
+          th:text="${option.name}"
+        ></option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_id_4">Choose 4th Doctor: </label>
+      <select name="id" id="monthly_id_4">
+        <option value="">&lt;--Not Selected--&gt;</option>
+        <option
+          th:each="option : ${doctors}"
+          th:value="${option.uuid}"
+          th:text="${option.name}"
+        ></option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_id_5">Choose 5th Doctor: </label>
+      <select name="id" id="monthly_id_5">
+        <option value="">&lt;--Not Selected--&gt;</option>
+        <option
+          th:each="option : ${doctors}"
+          th:value="${option.uuid}"
+          th:text="${option.name}"
+        ></option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_month">Choose Month: </label>
+      <select required name="month" id="monthly_month">
+        <option value="1" selected >January</option>
+        <option value="2">February</option>
+        <option value="3">March</option>
+        <option value="4">April</option>
+        <option value="5">May</option>
+        <option value="6">June</option>
+        <option value="7">July</option>
+        <option value="8">August</option>
+        <option value="9">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+    </div>
+    <div>
+      <label for="monthly_year">Choose Year: </label>
+      <select required name="year" id="monthly_year">
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021" selected >2021</option>
+        <option value="2022">2022</option>
+      </select>
+    </div>
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">
+      Search
+    </button>
+    <br />
+
+  </form>
+
+</body>
+</html>

@@ -37,4 +37,8 @@ public class DoctorService {
     public void deleteUser(DoctorModel user) {
         doctorDB.delete(user);
     }
+
+    public List<DoctorModel> getAllDoctors(){
+        return doctorDB.findAll();
+    }
 }

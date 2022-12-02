@@ -96,6 +96,4 @@ public class AuthRestController {
         }
         return ResponseEntity.ok(patient);
     }
-
-
 }

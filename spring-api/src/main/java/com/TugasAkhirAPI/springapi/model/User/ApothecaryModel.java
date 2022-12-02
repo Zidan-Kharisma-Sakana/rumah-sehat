@@ -1,6 +1,7 @@
 package com.TugasAkhirAPI.springapi.model.User;
 
 import com.TugasAkhirAPI.springapi.model.PrescriptionModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -21,5 +22,6 @@ public class ApothecaryModel extends BaseUser {
     private String name;
 
     @OneToMany(mappedBy = "confirmer")
+    @JsonIgnore
     private List<PrescriptionModel> listConfirmed;
 }

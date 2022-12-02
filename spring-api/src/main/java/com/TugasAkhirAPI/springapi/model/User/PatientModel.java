@@ -1,6 +1,7 @@
 package com.TugasAkhirAPI.springapi.model.User;
 
 import com.TugasAkhirAPI.springapi.model.AppointmentModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -29,6 +30,6 @@ public class PatientModel extends BaseUser{
     private Long age;
 
     @OneToMany(mappedBy = "patient")
+    @JsonIgnore
     private List<AppointmentModel> listAppointment;
-
 }
