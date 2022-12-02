@@ -23,5 +23,4 @@ public class UserRESTController {
         return patientService.getPatientByUsername(principal.getName());
     }
 
-    
 }

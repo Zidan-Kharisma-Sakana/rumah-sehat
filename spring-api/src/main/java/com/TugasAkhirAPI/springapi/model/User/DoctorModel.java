@@ -1,6 +1,7 @@
 package com.TugasAkhirAPI.springapi.model.User;
 
 import com.TugasAkhirAPI.springapi.model.AppointmentModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class DoctorModel extends BaseUser{
     @NotNull
     private Long fee;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "doctor")
     private List<AppointmentModel> listAppointment;
 }

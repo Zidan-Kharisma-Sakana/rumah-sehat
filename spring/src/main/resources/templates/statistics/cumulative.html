@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: font" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h1>Cumulative</h1>
+<div class="chart-container pb-5 mb-5" style="width:80%">
+  <canvas id="cumulative_chart"></canvas>
+</div>
+<div class="chart-container pb-5 mb-5" style="width:80%">
+    <canvas id="qty_chart"></canvas>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function () {
+        var path = '/api'+window.location.pathname+$(location).attr('search');
+
+        $.ajax({
+            url: path,
+            method: 'GET',
+            dataType: 'json',
+            success: function (doctors) {
+
+            const data_qty = {
+                labels: doctors.map(doctor=>doctor.name),
+                datasets: [{
+                  label : "Total Appointment Selesai",
+                  data: doctors.map(doctor=>doctor.totalAppointment),
+                  backgroundColor: [
+                   'rgba(153, 102, 255, 0.2)'
+                  ],
+                  borderColor: [  'rgba(153, 102, 255)'],
+                  borderWidth: 1
+                }]
+            }
+
+            const data_amount = {
+                labels: doctors.map(doctor=>doctor.name),
+                datasets: [{
+                  label : "Gaji Kumulatif",
+                  data: doctors.map(doctor=>doctor.totalAmount),
+                  backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: ['rgb(255, 99, 132)'],
+                  borderWidth: 1
+                }]
+              };
+            const config_amount = {
+                    type: 'bar',
+                    data: data_amount,
+                    options: {
+                        scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        }
+                    },
+            };
+            const config_qty = {
+                    type: 'bar',
+                    data: data_qty,
+                    options: {
+                        scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                        }
+                    },
+            };
+            const CumulativeChart = new Chart(
+                    document.getElementById('cumulative_chart'),
+                    config_amount
+            );
+
+            const QtyChart = new Chart(
+                    document.getElementById('qty_chart'),
+                    config_qty
+            );
+            console.log(doctors);
+            }
+        });
+    });
+</script>
+</html>

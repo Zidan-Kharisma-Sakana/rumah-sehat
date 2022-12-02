@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: font" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h1>Monthly</h1>
+<div class="chart-container pb-5 mb-5" style="width:80%">
+  <canvas id="myChart"></canvas>
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function () {
+    var path = '/api'+window.location.pathname+$(location).attr('search');
+    console.log(path)
+        $.ajax({
+            url: path,
+            method: 'GET',
+            dataType: 'json',
+            success: function (doctors) {
+              console.log(doctors);
+              let labels = []
+
+              const datasets = doctors.map((doctor, index) =>{
+                labels = Array(doctor.amount.length).fill(0).map((_, index)=>{
+                  return index+1;
+                })
+                return{
+                  label: doctor.name,
+                  data: doctor.amount,
+                }
+              })
+              const data = {
+                labels: labels,
+                datasets: datasets
+              };
+
+              const config = {
+                  type: 'line',
+                  data: data,
+                  options: {
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
+                      title: {
+                        display: true,
+                        text: 'Gaji Harian Dokter'
+                      }
+                    }
+                  },
+                };
+                const myChart = new Chart(
+                    document.getElementById('myChart'),
+                    config
+                );
+
+                console.log(doctors);
+            }
+        });
+    });
+</script>
+</html>
