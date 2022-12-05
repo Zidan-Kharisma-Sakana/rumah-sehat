@@ -312,7 +312,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page1(
+          builder: (context) => CreateAppointment(
             name: name,
             email: email,
             jwtToken: jwtToken,
@@ -321,7 +321,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page2(
+          builder: (context) => ListAppointments(
             name: name,
             email: email,
             jwtToken: jwtToken,
