@@ -35,11 +35,6 @@ public class MainController {
         return "home";
     }
 
-    @GetMapping("/statistics")
-    public String getStatisticPage(){
-        return "statistics";
-    }
-
     @GetMapping("/admin")
     public ResponseEntity<?> admin(Principal p, Model model){
         return ResponseEntity.ok(p.getName());

@@ -1,6 +1,8 @@
 package com.TugasAkhirAPI.springapi.rest_controller;
 
-import com.TugasAkhirAPI.springapi.dto.statistics.DoctorSalary;
+import com.TugasAkhirAPI.springapi.dto.statistics.CumulativeSalary;
+import com.TugasAkhirAPI.springapi.dto.statistics.MonthlySalary;
+import com.TugasAkhirAPI.springapi.dto.statistics.YearlySalary;
 import com.TugasAkhirAPI.springapi.service.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,14 +20,27 @@ public class StatisticsController {
     @Autowired
     StatisticService statisticService;
 
+    @GetMapping("")
+    private List<YearlySalary> getSalaryThisYear(){
+        try {
+            return statisticService.getThisYearSalary();
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
+            );
+        }
+    }
+
     @GetMapping("/monthly")
-    private List<DoctorSalary> getSalaryMonth(
+    private List<MonthlySalary> getMonthlySalary(
             @RequestParam(value = "id") List<String> values,
             @RequestParam(value = "month") String month,
             @RequestParam(value = "year") String year
     ){
         try {
-            return statisticService.getSalaryOnMonthAndYear(values, Integer.parseInt(month), Integer.parseInt(year));
+            List<MonthlySalary> salary =  statisticService.getMonthlySalary(values, Integer.parseInt(month), Integer.parseInt(year));
+            return salary;
         }
         catch (Exception e){
             throw new ResponseStatusException(
@@ -36,17 +50,31 @@ public class StatisticsController {
     }
 
     @GetMapping("/yearly")
-    private List<DoctorSalary> getSalaryYear(
+    private List<YearlySalary> getYearlySalary(
             @RequestParam(value = "id") List<String> values,
             @RequestParam(value = "year") String year ){
         try {
-            return statisticService.getSalaryOnYear(values, Integer.parseInt(year));
+            return statisticService.getYearlySalary(values, Integer.parseInt(year));
         }
         catch (Exception e){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
             );
         }
-
     }
+
+    @GetMapping("/cumulative")
+    private List<CumulativeSalary> getCumulativeSalary(
+            @RequestParam(value = "id") List<String> values){
+        try {
+            return statisticService.getCumulativeSalary(values);
+        }
+        catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
+            );
+        }
+    }
+
+
 }

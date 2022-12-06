@@ -1,9 +1,5 @@
-export 'page_1.dart';
-export 'page_2.dart';
+export 'rayyan/createAppointment.dart';
+export 'rayyan/listAppointments.dart';
 export 'page_6.dart';
 export 'zidan/profile_page.dart';
 export 'page_4.dart';
-export 'page_5.dart';
-export 'page_3.dart';
-export 'zidan/login_page.dart';
-export 'zidan/register_page.dart';
