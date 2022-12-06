@@ -40,6 +40,9 @@
                         <li><a class="dropdown-item" th:href="@{/user/patient/all}">Patient</a></li>
                     </ul>
                 </li>
+                <li class="nav-item" th:if="${role == 'ADMIN'}">
+                    <a class="nav-link" th:href="@{/statistics}">Statistics</a>
+                </li>
                 <li class="nav-item" th:unless="${role == 'APOTHECARY'}">
                     <a class="nav-link" th:href="@{/appointment/all}">Appointment</a>
                 </li>
