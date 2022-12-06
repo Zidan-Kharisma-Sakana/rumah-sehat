@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:mobile/page/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../page/page_3.dart';
+import '../page/page_5.dart';
+import '../page/zidan/login_page.dart';
+import '../page/zidan/register_page.dart';
+
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
   @override
@@ -322,8 +327,6 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ListAppointments(
-            name: name,
-            email: email,
             jwtToken: jwtToken,
           ),
         ));

@@ -35,3 +35,4 @@ class AppointmentModel {
       );
 
   Map<String, dynamic> toJson() => {};
+}
