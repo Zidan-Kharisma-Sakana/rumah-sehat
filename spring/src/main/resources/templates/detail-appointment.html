@@ -6,7 +6,7 @@
     <object th:include="fragments/fragment :: js " th:remove="tag"></object>
 </head>
 <body>
-    
+  <nav th:replace="fragments/fragment :: navbar"></nav>
 <div class="container">
     <div class="card m-4 p-4">
         <div class="card-body">
@@ -45,7 +45,7 @@
                       </div>
                     </div>
                   </div>
-                <a th:if="${appointment.prescription != null}"  class="btn btn-primary" th:href="@{/} ">Detail resep</a>
+                <a th:if="${appointment.prescription != null}"  class="btn btn-primary" th:href="@{/prescription/detail/} + ${appointment.prescription.getId()}">Detail resep</a>
                 <a  th:if="${appointment.prescription == null and !appointment.isDone and role=='DOCTOR' }" class="btn btn-primary" th:href="@{/prescription/add/} + ${appointment.code}">Add resep</a>
             </div>
         </div>

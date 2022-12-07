@@ -19,6 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PrescriptionModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -31,7 +32,7 @@ public class PrescriptionModel {
     @JoinColumn(name = "confirmer_uuid")
     private ApothecaryModel confirmer;
 
-    @OneToMany(mappedBy = "prescription")
+    @OneToMany(mappedBy = "prescription",fetch = FetchType.EAGER)
     private List<DrugPrescriptionModel> listPrescribe;
 
     @OneToOne
