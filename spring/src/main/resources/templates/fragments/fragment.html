@@ -52,7 +52,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
                         <li th:if="${role == 'DOCTOR'}"><a class="dropdown-item" th:href="@{/prescription/add}">Add Prescription</a></li>
-                        <li th:unless="${role == 'DOCTOR'}"><a class="dropdown-item" th:href="@{/prescription/all}">Get All Prescription</a></li>
+                        <li th:unless="${role == 'DOCTOR' || role == 'PATIENT'}"><a class="dropdown-item" th:href="@{/prescription/view-all}">Get All Prescription</a></li>
                     </ul>
                 </li>
                 <li class="nav-item" th:unless="${role == 'DOCTOR'}">

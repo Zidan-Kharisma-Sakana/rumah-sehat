@@ -24,11 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.TugasAkhir.spring.model.AppointmentModel;
 import com.TugasAkhir.spring.model.DrugModel;
 import com.TugasAkhir.spring.model.DrugPrescriptionModel;
+import com.TugasAkhir.spring.model.InvoiceModel;
 import com.TugasAkhir.spring.model.PrescriptionModel;
+import com.TugasAkhir.spring.model.User.ApothecaryModel;
+import com.TugasAkhir.spring.repository.DrugDB;
 import com.TugasAkhir.spring.service.AppointmentService;
 import com.TugasAkhir.spring.service.DrugPrescriptionService;
 import com.TugasAkhir.spring.service.DrugService;
+import com.TugasAkhir.spring.service.InvoiceService;
 import com.TugasAkhir.spring.service.PrescriptionService;
+import com.TugasAkhir.spring.service.User.ApothecaryService;
 
 // Notes: Please use english verb/adjective to describe your path
 @Controller
@@ -45,6 +50,12 @@ public class PrescriptionController {
 
     @Autowired
     DrugPrescriptionService drugPrescriptionService;
+
+    @Autowired
+    ApothecaryService apothecaryService;
+
+    @Autowired
+    InvoiceService invoiceService;
 
     @GetMapping(value = "/add/{code}")
     public String addPerscription(@PathVariable String code,Principal principal,Model model){
@@ -126,14 +137,31 @@ public class PrescriptionController {
     @PostMapping(value = "/add/{code}",params="save")
     public String addPerscriptionSave(@PathVariable String code,@ModelAttribute PrescriptionModel prescription,Model model, Principal principal){
         AppointmentModel appointment = appointmentService.findByCode(code);
+        List<DrugPrescriptionModel> listPrescribed = prescription.getListPrescribe();
 
-        for(DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
+        prescription.setIsDone(false);
+        prescription.setAppointment(appointment);
+        prescription.setCreatedAt(LocalDateTime.now());
+        prescription.setListPrescribe(new ArrayList<>()); 
+        prescriptionService.add(prescription);
+
+        for(DrugPrescriptionModel drugPrescription : listPrescribed){
+            drugPrescription.setPrescription(prescription);
             drugPrescriptionService.add(drugPrescription);
         }
-        
-        prescriptionService.add(prescription);
-        appointment.setPrescription(prescription);
 
+        PrescriptionModel prescriptionAdded = prescriptionService.findById(prescription.getId());
+        prescriptionAdded.setListPrescribe(listPrescribed);
+        prescriptionService.update(prescriptionAdded);
+        
+
+        for(DrugPrescriptionModel drugPrescription : listPrescribed){
+            drugPrescription.setPrescription(prescription);
+            drugPrescriptionService.add(drugPrescription);
+        }
+
+
+        appointment.setPrescription(prescription);
         appointmentService.update(appointment);
 
         model.addAttribute("prescription", prescription);
@@ -142,4 +170,123 @@ public class PrescriptionController {
         
         return "add-prescription";
     }
+
+    @GetMapping("/view-all")
+    public String viewAllPrescription(Model model, Principal principal){
+       
+        //get all prescription
+        List<PrescriptionModel> listPrescription = prescriptionService.findAll();
+
+        model.addAttribute("listPrescription", listPrescription);
+        
+        
+        //models
+        return "viewall-prescription";
+
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detailPrescription(@PathVariable String id,Model model, Principal principal){
+        //get prescription
+        PrescriptionModel prescription =prescriptionService.findById(Long.parseLong(id));
+        List<DrugPrescriptionModel> listOfDrugs = drugPrescriptionService.getListOfDrugdByPrescriptionId(Long.parseLong(id));
+        // get role
+        SecurityContext z = SecurityContextHolder.getContext();
+        //check stock
+        boolean isStockEnough = true;
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
+        String role = "";
+        for(GrantedAuthority i: authorities){
+            role = i.getAuthority();
+        }
+        // check if prescription exists
+        if(prescription== null){
+            return "gagal-view-prescription";
+        }
+        // check stock
+        for (DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
+            Long stock = drugService.getDrug(drugPrescription.getDrug().getId()).getStock();
+            if(stock< drugPrescription.getQuantity()){
+                isStockEnough = false;
+                break;
+            }
+        }
+        
+        //models
+        model.addAttribute("isStockEnough", isStockEnough);
+        //models
+        model.addAttribute("role", role);
+        model.addAttribute("prescription", prescription);
+        model.addAttribute("listDrugs", listOfDrugs);
+
+        
+        return "detail-prescription";
+
+    }
+
+    @GetMapping("/save/{id}")
+    public String savePrescription(@PathVariable String id,Model model, Principal principal){
+
+        ApothecaryModel apoteker = apothecaryService.getUserByUsername(principal.getName());
+        
+        
+        // get prescription
+        PrescriptionModel prescription = prescriptionService.findById(Long.parseLong(id));
+        // check if prescription exist
+        //check if presctiption is done
+        //check if appointment is done
+        if(prescription==null|| prescription.getIsDone()||prescription.getAppointment().getIsDone()){
+            return "gagal-save-prescription";
+        }
+
+        // check if stock enough
+        for (DrugPrescriptionModel drugPrescription : prescription.getListPrescribe()){
+            Long stock = drugService.getDrug(drugPrescription.getDrug().getId()).getStock();
+            if(stock< drugPrescription.getQuantity()){
+                return "gagal-save-prescription";
+            }
+        }
+        
+        //save prescription
+        prescription.setIsDone(true);
+        prescription.setConfirmer(apoteker);
+        prescriptionService.update(prescription);
+
+        // check amount
+        
+    
+        // Invoice
+        InvoiceModel invoice = new InvoiceModel();
+        invoice.setDateIssued(LocalDateTime.now());
+        invoice.setAppointment(prescription.getAppointment());
+        invoice.setIsPaid(false);
+        invoice.setAmount(prescription.getAppointment().getDoctor().getFee()+ totalBill(prescription));
+        invoiceService.add(invoice);
+
+        //save appointment
+        AppointmentModel appointment = prescription.getAppointment();
+        appointment.setInvoice(invoice);
+        appointment.setIsDone(true);
+        appointmentService.update(appointment);
+
+        return "save-prescription";
+    }
+
+    private Long totalBill(PrescriptionModel prescription){
+        if(prescription != null ){
+            if (prescription.getListPrescribe().size() == 0){
+                return Long.valueOf(0);
+            }else{
+                Long total = Long.valueOf(0);
+                for(DrugPrescriptionModel drugPrecription : prescription.getListPrescribe()){
+                    total += drugPrecription.getDrug().getPrice() * drugPrecription.getQuantity();
+                }
+
+                return total;
+            }
+        } return Long.valueOf(0);
+    }
+
+
+
 }
