@@ -4,7 +4,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/provider/auth.dart';
 import 'package:mobile/widget/button_widget.dart';
+import 'package:provider/provider.dart';
 
 Future<Profile> fetchProfile(String jwtToken) async {
   final response = await http.get(Uri.parse('http://localhost:8081/api/user'), headers: <String, String>{
@@ -13,12 +15,8 @@ Future<Profile> fetchProfile(String jwtToken) async {
   });
 
   if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
     return Profile.fromJson(jsonDecode(response.body));
   } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
     throw Exception('Failed to load Profile');
   }
 }
@@ -66,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
   late String name;
   late String jwtToken;
   late String email;
-  late Future<Profile> futureProfile;
 
   @override
   void initState() {
@@ -74,7 +71,6 @@ class _ProfilePageState extends State<ProfilePage> {
     name = widget.name;
     jwtToken = widget.jwtToken;
     email = widget.email;
-    futureProfile = fetchProfile(jwtToken);
   }
 
   Widget buildField(String judul, String isi) {
@@ -115,6 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
       );
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<Authentication>();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -122,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
           centerTitle: true,
         ),
         body: FutureBuilder<Profile>(
-            future: futureProfile,
+            future: fetchProfile(request.jwtToken),
             builder: (context, AsyncSnapshot<Profile> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
