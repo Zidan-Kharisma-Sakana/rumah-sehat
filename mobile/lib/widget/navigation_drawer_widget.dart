@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/page/all.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../page/page_3.dart';
 import '../page/page_5.dart';
@@ -51,8 +52,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const urlImage =
-        'https://64.media.tumblr.com/b2274200b6c46495f31c1e0a6678dc86/05ebb2b05dc70fb3-60/s640x960/a42b3a3ccd9fdf24d376508c7e223fb0db40de08.jpg';
+    const urlImage = "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg";
     return SizedBox(
       width: MediaQuery.of(context).size.width *
           0.75, // 75% of screen will be occupied
