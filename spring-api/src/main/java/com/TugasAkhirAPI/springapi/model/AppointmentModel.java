@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -41,7 +42,9 @@ public class AppointmentModel {
     @JoinColumn(name = "invoice_code")
     private InvoiceModel invoice;
 
+    // TODO : delete Nullable annot
     @OneToOne
     @JoinColumn(name = "prescription_code")
+    @Nullable
     private PrescriptionModel prescription;
 }

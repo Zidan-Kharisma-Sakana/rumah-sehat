@@ -333,9 +333,8 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page3(
+          builder: (context) => ListInvoicesPage(
             name: name,
-            email: email,
             jwtToken: jwtToken,
           ),
         ));

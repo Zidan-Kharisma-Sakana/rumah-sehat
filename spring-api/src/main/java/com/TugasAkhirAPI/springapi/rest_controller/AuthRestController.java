@@ -48,6 +48,7 @@ public class AuthRestController {
             dummyService.createDummyApothecary();
             dummyService.createDummyDoctor();
             dummyService.createDummyPatient();
+            dummyService.createDummyInvoice();
         } catch (Exception e){
             return e.getLocalizedMessage();
         }
