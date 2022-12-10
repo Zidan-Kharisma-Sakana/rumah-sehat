@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.TugasAkhirAPI.springapi.dto.mobile.AppointmentDetail;
 import com.TugasAkhirAPI.springapi.model.AppointmentModel;
 import com.TugasAkhirAPI.springapi.repository.AppointmentDB;
-import com.TugasAkhirAPI.springapi.rest.AppointmentDetail;
 
 
 

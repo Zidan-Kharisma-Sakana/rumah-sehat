@@ -31,20 +31,11 @@ public class AppointmentController {
     @Autowired
     InvoiceService invoiceService;
     
-    //@Autowired
-    //UserService userService;
     
     @GetMapping(value = "/detail/{id}")
     public String detailAppointment(@PathVariable String id,Model model, Principal principal){
         AppointmentModel appointment = appointmentService.findByCode(id);
         
-        SecurityContext z = SecurityContextHolder.getContext();
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
-        String role = "";
-        for(GrantedAuthority i: authorities){
-            role = i.getAuthority();
-        }
-        model.addAttribute("role", role);
 
         if(appointment==null ) {
             return "gagal-view-appointment";
@@ -56,13 +47,16 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/save/{id}")
+  
     public String saveAppointment(@PathVariable String id, Model model, Principal principal){
+
+        String gagalSave = "gagal-save-appointment";
         AppointmentModel appointment = appointmentService.findByCode(id);
         int status = 0;
         if(appointment==null) {
             status=1;
             model.addAttribute("status", status);
-            return "gagal-save-appointment";
+            return gagalSave;
             
         }
 
@@ -70,17 +64,17 @@ public class AppointmentController {
             if(!appointment.getPrescription().getIsDone()){
                 status=2;
                 model.addAttribute("status", status);
-                return "gagal-save-appointment";
+                return gagalSave;
             } else if (appointment.getIsDone()){
                 status=3;
                 model.addAttribute("status", status);
-                return "gagal-save-appointment";
+                return gagalSave;
             }
         } else {
             if(appointment.getIsDone()){
                 status=3;
                 model.addAttribute("status", status);
-                return "gagal-save-appointment";
+                return gagalSave;
             }
         }
         model.addAttribute("appointment", appointment);
@@ -106,6 +100,6 @@ public class AppointmentController {
         return "save-appointment";
     }
 
-
+    
     
 }

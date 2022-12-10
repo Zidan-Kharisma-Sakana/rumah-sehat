@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/page/all.dart';
+import 'package:mobile/page/farah/detail-resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
@@ -350,10 +351,11 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 5:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page5(
+          builder: (context) => DetailResep(
             name: name,
             email: email,
             jwtToken: jwtToken,
+            id: "APT-XXX",
           ),
         ));
         break;

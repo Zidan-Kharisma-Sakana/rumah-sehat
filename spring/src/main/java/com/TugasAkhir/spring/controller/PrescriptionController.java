@@ -3,12 +3,9 @@ package com.TugasAkhir.spring.controller;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jmx.export.notification.NotificationPublisherAware;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.TugasAkhir.spring.model.AppointmentModel;
 import com.TugasAkhir.spring.model.DrugModel;
@@ -63,13 +59,7 @@ public class PrescriptionController {
         PrescriptionModel newPrescription = new PrescriptionModel();
         AppointmentModel appointment = appointmentService.findByCode(code);
 
-        SecurityContext z = SecurityContextHolder.getContext();
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
-        String role = "";
-        for(GrantedAuthority i: authorities){
-            role = i.getAuthority();
-        }
-        model.addAttribute("role", role);
+        
         
         if(appointment == null  || appointment.getIsDone() || appointment.getPrescription()!=null){
             return "gagal-add-prescription";
@@ -91,7 +81,7 @@ public class PrescriptionController {
 
         model.addAttribute("listDrugExisting", listDrugExisting);
         model.addAttribute("prescription", newPrescription);
-        model.addAttribute("principal",principal);
+        
         model.addAttribute("code", code);
         return "form-add-prescription";
     }
@@ -111,7 +101,7 @@ public class PrescriptionController {
 
         model.addAttribute("listDrugExisting", listDrugExisting);
         model.addAttribute("prescription", prescription);
-        model.addAttribute("principal",principal);
+        
         model.addAttribute("code",code);
         return "form-add-prescription";
     }
@@ -129,7 +119,6 @@ public class PrescriptionController {
 
         model.addAttribute("listDrugExisting", listDrugExisting);
         model.addAttribute("prescription",prescription);
-        model.addAttribute("principal",principal);
         model.addAttribute("code",code);
         return "form-add-prescription";
     }
@@ -165,7 +154,7 @@ public class PrescriptionController {
         appointmentService.update(appointment);
 
         model.addAttribute("prescription", prescription);
-        model.addAttribute("principal",principal);
+        
         model.addAttribute("code",code);
         
         return "add-prescription";
@@ -190,15 +179,10 @@ public class PrescriptionController {
         //get prescription
         PrescriptionModel prescription =prescriptionService.findById(Long.parseLong(id));
         List<DrugPrescriptionModel> listOfDrugs = drugPrescriptionService.getListOfDrugdByPrescriptionId(Long.parseLong(id));
-        // get role
-        SecurityContext z = SecurityContextHolder.getContext();
+    
         //check stock
         boolean isStockEnough = true;
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) z.getAuthentication().getAuthorities();
-        String role = "";
-        for(GrantedAuthority i: authorities){
-            role = i.getAuthority();
-        }
+        
         // check if prescription exists
         if(prescription== null){
             return "gagal-view-prescription";
@@ -215,7 +199,6 @@ public class PrescriptionController {
         //models
         model.addAttribute("isStockEnough", isStockEnough);
         //models
-        model.addAttribute("role", role);
         model.addAttribute("prescription", prescription);
         model.addAttribute("listDrugs", listOfDrugs);
 
@@ -274,7 +257,7 @@ public class PrescriptionController {
 
     private Long totalBill(PrescriptionModel prescription){
         if(prescription != null ){
-            if (prescription.getListPrescribe().size() == 0){
+            if (prescription.getListPrescribe().isEmpty()){
                 return Long.valueOf(0);
             }else{
                 Long total = Long.valueOf(0);

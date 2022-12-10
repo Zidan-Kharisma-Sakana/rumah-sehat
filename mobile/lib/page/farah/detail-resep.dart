@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/page/farah/model/resep.dart';
 import 'package:mobile/widget/button_widget.dart';
+import 'package:json_helpers/json_helpers.dart';
+
+import 'model/drug.dart';
 
 class DetailResep extends StatefulWidget {
   final String name;
@@ -20,34 +24,6 @@ class DetailResep extends StatefulWidget {
 
   @override
   _DetailResepState createState() => _DetailResepState();
-}
-
-class Resep {
-  final String id;
-  final String namaDokter;
-  final String namaPasien;
-  final String waktuAwal;
-  final String status;
-  final int idPrescription;
-  final List<DrugPrescription> listPrescribed;
-
-  Resep(
-      {required this.id,
-      required this.namaDokter,
-      required this.namaPasien,
-      required this.waktuAwal,
-      required this.status,
-      required this.idPrescription});
-
-  factory Appointment.fromJson(Map<String, dynamic> json) {
-    return Appointment(
-        code: json['code'],
-        namaDokter: json['nama-dokter'],
-        namaPasien: json['nama-pasien'],
-        waktuAwal: json['waktu-awal'],
-        status: json['status'],
-        idPrescription: json['id-prescription']);
-  }
 }
 
 Widget buildField(String judul, String isi) {
@@ -73,12 +49,27 @@ Widget buildField(String judul, String isi) {
   );
 }
 
+Widget buildDetail(String isi) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 60),
+    child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(isi, style: const TextStyle(fontSize: 20)),
+          const SizedBox(
+            height: 15,
+          ),
+        ]),
+  );
+}
+
 Widget buildContent() => Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.mode_edit_outline, size: 28),
-        const SizedBox(width: 16),
-        const Text(
+      children: const [
+        Icon(Icons.mode_edit_outline, size: 28),
+        SizedBox(width: 16),
+        Text(
           "Detail Resep",
           style: TextStyle(fontSize: 22, color: Colors.white),
         ),
@@ -90,23 +81,18 @@ class _DetailResepState extends State<DetailResep> {
   late String jwtToken;
   late String email;
   late String code;
-  late Future<Resep> futureResep;
+  late Future<Resep> futureData;
 
-  Future<Resep> fetchAppointment(String jwtToken, String id) async {
+  Future<Resep> fetchPrescription(String jwtToken, String id) async {
     final response = await http.get(
-        Uri.parse('http://localhost:8081/api/presciption/detail/$id'),
+        Uri.parse('http://localhost:8081/api/prescription/detail/$code'),
         headers: <String, String>{
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': 'Bearer $jwtToken'
         });
-
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      return Appointment.fromJson(jsonDecode(response.body));
+      return Resep.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       throw Exception('Failed to load Profile');
     }
   }
@@ -117,20 +103,20 @@ class _DetailResepState extends State<DetailResep> {
     name = widget.name;
     jwtToken = widget.jwtToken;
     email = widget.email;
-    code = widget.code;
-    futureAppointment = fetchAppointment(jwtToken, code);
+    code = widget.id;
+    futureData = fetchPrescription(jwtToken, code);
   }
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(
           title: const Text("Rumah Sehat"),
         ),
-        body: FutureBuilder<Appointment>(
-            future: futureAppointment,
-            builder: (context, AsyncSnapshot<Appointment> snapshot) {
+        body: FutureBuilder<Resep>(
+            future: futureData,
+            builder: (context, AsyncSnapshot<Resep> snapshot) {
+              List<Widget> listDrug = [];
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return const Center(
@@ -140,49 +126,29 @@ class _DetailResepState extends State<DetailResep> {
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    if (snapshot.data!.idPrescription == 0) {
-                      return ListView(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildField("Kode", snapshot.data!.code),
-                          buildField("Status", snapshot.data!.status),
-                          buildField("Nama Dokter", snapshot.data!.namaDokter),
-                          buildField("Nama Pasien", snapshot.data!.namaPasien),
-                          buildField("Waktu Awal", snapshot.data!.waktuAwal),
-                          const SizedBox(
-                            height: 40,
-                          )
-                        ],
-                      );
-                    } else {
-                      return ListView(
-                        children: [
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          buildField("Kode", snapshot.data!.code),
-                          buildField("Status", snapshot.data!.status),
-                          buildField("Nama Dokter", snapshot.data!.namaDokter),
-                          buildField("Nama Pasien", snapshot.data!.namaPasien),
-                          buildField("Waktu Awal", snapshot.data!.waktuAwal),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 60),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(50),
-                              ),
-                              child: buildContent(),
-                              onPressed: () {},
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 40,
-                          )
-                        ],
-                      );
+                    for (var i in snapshot.data!.drugs) {
+                      String nama = i.nama;
+                      int qty = i.quantity;
+                      print("Obat $nama $qty");
+                      listDrug.add(buildDetail("$nama $qty"));
                     }
+                    return ListView(
+                        children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              buildField("Id", snapshot.data?.id ?? "-"),
+                              buildField(
+                                  "Status", snapshot.data?.status ?? "-"),
+                              buildField("Nama Dokter",
+                                  snapshot.data?.namaDokter ?? "-"),
+                              buildField("Nama Pasien",
+                                  snapshot.data?.namaPasien ?? "-"),
+                              buildField("Created at",
+                                  snapshot.data?.waktuAwal ?? "-"),
+                              buildField("Daftar Obat: ", ""),
+                            ] +
+                            listDrug);
                   }
               }
             }));

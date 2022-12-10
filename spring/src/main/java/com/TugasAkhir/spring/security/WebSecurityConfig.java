@@ -25,7 +25,11 @@ public class WebSecurityConfig {
                 .antMatchers("/user/view-doctor", "/user/add-doctor", "/user/add-apothecary",
                         "/user/add-apothecary", "/user/view-patient").hasAuthority("ADMIN")
                 .antMatchers("/appointment/detail/**").hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
+                .antMatchers("/prescription/detail/**").hasAnyAuthority("ADMIN", "DOCTOR", "APOTHECARY","PATIENT")
+                .antMatchers("/prescription/view-all").hasAnyAuthority("ADMIN", "APOTHECARY")
+                .antMatchers("/appointment/save/**").hasAuthority("DOCTOR")
                 .antMatchers("/prescription/add/**").hasAuthority("DOCTOR")
+                .antMatchers("/prescription/save/**").hasAuthority("APOTHECARY")
                 .antMatchers("/login-sso", "/validate-ticket").permitAll()
                 .antMatchers("/admin", "/statistics").hasAuthority("ADMIN")                                //Cuma contoh buat ngasih akses
                 .antMatchers("/admin_doctor").hasAnyAuthority("ADMIN", "DOCTOR") // Ada di main cntroller

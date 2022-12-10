@@ -1,8 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/widget/button_widget.dart';
+import 'package:mobile/page/farah/detail-resep.dart';
+
+import 'model/appointment.dart';
 
 class DetailAppointment extends StatefulWidget {
   final String name;
@@ -20,33 +24,6 @@ class DetailAppointment extends StatefulWidget {
 
   @override
   _DetailAppointmentState createState() => _DetailAppointmentState();
-}
-
-class Appointment {
-  final String code;
-  final String namaDokter;
-  final String namaPasien;
-  final String waktuAwal;
-  final String status;
-  final int idPrescription;
-
-  Appointment(
-      {required this.code,
-      required this.namaDokter,
-      required this.namaPasien,
-      required this.waktuAwal,
-      required this.status,
-      required this.idPrescription});
-
-  factory Appointment.fromJson(Map<String, dynamic> json) {
-    return Appointment(
-        code: json['code'],
-        namaDokter: json['nama-dokter'],
-        namaPasien: json['nama-pasien'],
-        waktuAwal: json['waktu-awal'],
-        status: json['status'],
-        idPrescription: json['id-prescription']);
-  }
 }
 
 Widget buildField(String judul, String isi) {
@@ -74,10 +51,10 @@ Widget buildField(String judul, String isi) {
 
 Widget buildContent() => Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.mode_edit_outline, size: 28),
-        const SizedBox(width: 16),
-        const Text(
+      children: const [
+        Icon(Icons.mode_edit_outline, size: 28),
+        SizedBox(width: 16),
+        Text(
           "Detail Resep",
           style: TextStyle(fontSize: 22, color: Colors.white),
         ),
@@ -100,12 +77,8 @@ class _DetailAppointmentState extends State<DetailAppointment> {
         });
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
       return Appointment.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
       throw Exception('Failed to load Profile');
     }
   }
@@ -136,6 +109,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                     child: CircularProgressIndicator(),
                   );
                 default:
+                  int idPrescription = snapshot.data!.idPrescription;
                   if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
@@ -173,7 +147,16 @@ class _DetailAppointmentState extends State<DetailAppointment> {
                                 minimumSize: const Size.fromHeight(50),
                               ),
                               child: buildContent(),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DetailResep(
+                                            name: name,
+                                            email: email,
+                                            jwtToken: jwtToken,
+                                            id: "$idPrescription")));
+                              },
                             ),
                           ),
                           const SizedBox(
