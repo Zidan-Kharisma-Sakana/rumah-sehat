@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile/page/farah/detail-resep.dart';
 
 import 'model/appointment.dart';
+import 'package:mobile/provider/auth.dart';
 
 class DetailAppointment extends StatefulWidget {
   final String name;

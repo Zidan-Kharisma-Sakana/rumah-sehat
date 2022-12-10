@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/detail_appointment.dart';
 
 Future<List<Invoice>> fetchInvoices(String jwtToken, String name) async {
   String uri = 'http://localhost:8081/api/invoice/get-all/' + name;
