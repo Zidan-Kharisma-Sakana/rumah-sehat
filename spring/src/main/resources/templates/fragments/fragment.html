@@ -30,7 +30,7 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
                 </li>
-                <li class="nav-item dropdown" th:if="${role == 'ADMIN'}">
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item dropdown" >
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown0" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         User
                     </a>
@@ -46,16 +46,15 @@
                 <li class="nav-item" th:unless="${role == 'APOTHECARY'}">
                     <a class="nav-link" th:href="@{/appointment/all}">Appointment</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('ADMIN','APOTHECARY')">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Prescription
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                        <li th:if="${role == 'DOCTOR'}"><a class="dropdown-item" th:href="@{/prescription/add}">Add Prescription</a></li>
-                        <li th:unless="${role == 'DOCTOR' || role == 'PATIENT'}"><a class="dropdown-item" th:href="@{/prescription/view-all}">Get All Prescription</a></li>
+                        <li  sec:authorize="hasAnyAuthority('ADMIN','APOTHECARY')"><a class="dropdown-item" th:href="@{/prescription/view-all}">Get All Prescription</a></li>
                     </ul>
                 </li>
-                <li class="nav-item" th:unless="${role == 'DOCTOR'}">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','APOTHECARY')">
                     <a class="nav-link" th:href="@{/drug/all}">Drug</a>
                 </li>
             </ul>

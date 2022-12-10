@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/detail_appointment.dart';
+import 'package:mobile/page/farah/detail_appointment.dart';
 
 class Page4 extends StatelessWidget {
   final String name;

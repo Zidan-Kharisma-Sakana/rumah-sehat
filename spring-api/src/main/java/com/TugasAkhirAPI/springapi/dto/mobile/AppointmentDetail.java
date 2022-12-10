@@ -1,4 +1,4 @@
-package com.TugasAkhirAPI.springapi.rest;
+package com.TugasAkhirAPI.springapi.dto.mobile;
 
 import java.time.LocalDateTime;
 
