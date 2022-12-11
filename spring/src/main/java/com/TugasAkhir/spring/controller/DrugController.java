@@ -2,6 +2,7 @@ package com.TugasAkhir.spring.controller;
 
 import com.TugasAkhir.spring.model.DrugModel;
 import com.TugasAkhir.spring.service.DrugService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import java.util.List;
 
 // Notes: Please use english verb/adjective to describe your path
 @Controller
+@Slf4j
 @RequestMapping("/drug")
 public class DrugController {
 
@@ -22,6 +24,7 @@ public class DrugController {
     public String listDrug(Model model) {
         List<DrugModel> listDrug = this.drugService.getListDrug();
         model.addAttribute("listDrug", listDrug);
+        log.info("Get all drug completed");
         return "viewall-drugs";
     }
 
