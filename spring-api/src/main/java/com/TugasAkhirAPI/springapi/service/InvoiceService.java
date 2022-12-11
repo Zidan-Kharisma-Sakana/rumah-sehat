@@ -3,7 +3,7 @@ package com.TugasAkhirAPI.springapi.service;
 import com.TugasAkhirAPI.springapi.model.AppointmentModel;
 import com.TugasAkhirAPI.springapi.model.InvoiceModel;
 import com.TugasAkhirAPI.springapi.repository.AppointmentDB;
-import com.TugasAkhirAPI.springapi.repository.InvoiceDB;
+import com.TugasAkhirAPI.springapi.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +37,11 @@ public class InvoiceService {
     public InvoiceModel getInvoiceByCode(String code) {
         return invoiceDB.findByCode(code);
     }
+
+    public InvoiceModel payInvoice (InvoiceModel invoice){
+        invoice.setIsPaid(Boolean.TRUE);
+        return invoice;
+    }
+
 
 }

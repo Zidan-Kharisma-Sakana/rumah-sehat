@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
 @Entity
 @Table(name="invoice")
 @Getter
@@ -40,4 +41,5 @@ public class InvoiceModel {
     @OneToOne
     @JoinColumn(name = "appointment_code")
     private AppointmentModel appointment;
+
 }

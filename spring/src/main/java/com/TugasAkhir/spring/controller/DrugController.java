@@ -18,29 +18,29 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
-    @GetMapping({"/viewall"})
+    @GetMapping({"/all"})
     public String listDrug(Model model) {
         List<DrugModel> listDrug = this.drugService.getListDrug();
         model.addAttribute("listDrug", listDrug);
         return "viewall-drugs";
     }
 
-    @GetMapping({"/update/{id}"})
+    @GetMapping({"/edit/{id}"})
     public String updateDrugFormPage(@PathVariable String id, Model model) {
         DrugModel drug = this.drugService.getDrug(id);
         model.addAttribute("drug", drug);
         return "form-update-drug";
     }
 
-    @PostMapping({"/update"})
+    @PostMapping({"/edit"})
     public String updateDrugSubmitPage(@ModelAttribute DrugModel drug, Model model) {
         DrugModel updatedDrug = this.drugService.updateDrug(drug);
-        List<DrugModel> listCourse = this.drugService.getListDrug();
+        List<DrugModel> listDrug = this.drugService.getListDrug();
         model.addAttribute("drug", updatedDrug);
         return "update-drug";
     }
 
-    @GetMapping({"/view/{id}"})
+    @GetMapping({"/detail/{id}"})
     public String viewDetailDrug(@PathVariable("id") String id, Model model) {
         DrugModel drug = this.drugService.getDrug(id);
         model.addAttribute("drug", drug);
