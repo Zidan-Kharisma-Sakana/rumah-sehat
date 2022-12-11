@@ -3,6 +3,8 @@ package com.TugasAkhirAPI.springapi.rest_controller;
 import com.TugasAkhirAPI.springapi.dto.statistics.CumulativeSalary;
 import com.TugasAkhirAPI.springapi.dto.statistics.MonthlySalary;
 import com.TugasAkhirAPI.springapi.dto.statistics.YearlySalary;
+import com.TugasAkhirAPI.springapi.model.User.DoctorModel;
+import com.TugasAkhirAPI.springapi.service.AppointmentService;
 import com.TugasAkhirAPI.springapi.service.StatisticService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -19,11 +23,21 @@ public class StatisticsController {
     @Autowired
     StatisticService statisticService;
 
+    @Autowired
+    AppointmentService appointmentService;
+
     @GetMapping("")
     private List<YearlySalary> getSalaryThisYear(){
         try {
             log.info("Try to get statistics this year");
-            return statisticService.getThisYearSalary();
+            List<YearlySalary> yearlySalaries = new ArrayList<>();
+            DoctorModel allDoctorRep = new DoctorModel();
+            allDoctorRep.setName("Semua Dokter");
+            YearlySalary allDokter = new YearlySalary(allDoctorRep, appointmentService.getAll())
+                    .selectAppointmentByYear(LocalDateTime.now().getYear())
+                    .calculate();
+            yearlySalaries.add(allDokter);
+            return yearlySalaries;
         }
         catch (Exception e){
             log.warn("Not found any statistic");
@@ -50,7 +64,7 @@ public class StatisticsController {
         catch (Exception e){
             log.warn("Not found any salary");
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
+                    HttpStatus.BAD_REQUEST, e.getMessage()
             );
         }
     }
@@ -65,7 +79,7 @@ public class StatisticsController {
         }
         catch (Exception e){
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
+                    HttpStatus.BAD_REQUEST, e.getMessage()
             );
         }
     }
@@ -79,7 +93,7 @@ public class StatisticsController {
         }
         catch (Exception e){
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, e.getLocalizedMessage()
+                    HttpStatus.BAD_REQUEST, e.getMessage()
             );
         }
     }

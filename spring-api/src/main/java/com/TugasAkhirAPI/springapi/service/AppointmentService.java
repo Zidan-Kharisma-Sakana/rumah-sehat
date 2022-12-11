@@ -1,6 +1,7 @@
 package com.TugasAkhirAPI.springapi.service;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +44,21 @@ public class AppointmentService {
         return res;
     }
 
+    public List<AppointmentModel> getAll(){
+        return appointmentDB.findAll();
+    }
+
     public CreateAppointmentResponse createAppointment(CreateAppointmentRequest request, PatientModel patient, DoctorModel doctor) throws Exception {
         List<AppointmentModel> apts = appointmentDB.findAll();
-        LocalDateTime start = request.getStartTime().minusMinutes(1);
-        LocalDateTime end = start.plusHours(1);
+        LocalDateTime start = request.getStartTime();
+        System.out.println(start);
+        LocalDateTime end = request.getStartTime().plusHours(1);
+        System.out.println(end);
         for(AppointmentModel appointment: apts){
-            if(appointment.getStartTime().isAfter(start) && appointment.getStartTime().isBefore(end)){
+            LocalDateTime appointmentStartTime = appointment.getStartTime();
+            LocalDateTime appointmentEndTime = appointmentStartTime.plusHours(1);
+            // (StartA < EndB) and (EndA > StartB)
+            if(appointmentStartTime.isBefore(end) && appointmentEndTime.isAfter(start)){
                 if(appointment.getDoctor().getUuid().equals(request.getDoctor_uuid())){
                     throw new Exception("Jadwal Bentrok");
                 }

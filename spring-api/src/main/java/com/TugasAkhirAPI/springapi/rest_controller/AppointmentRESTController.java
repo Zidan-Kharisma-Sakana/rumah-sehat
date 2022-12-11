@@ -14,7 +14,6 @@ import com.TugasAkhirAPI.springapi.model.User.PatientModel;
 import com.TugasAkhirAPI.springapi.service.AppointmentService;
 import com.TugasAkhirAPI.springapi.service.User.DoctorService;
 import com.TugasAkhirAPI.springapi.service.User.PatientService;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,14 +22,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.TugasAkhirAPI.springapi.dto.mobile.AppointmentDetail;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import com.TugasAkhirAPI.springapi.restservice.AppointmentRestService;
-
-
 // Notes: Please use english verb/adjective to describe your path
 @Slf4j
 @RestController
@@ -57,9 +53,6 @@ public class AppointmentRESTController {
             log.debug("Not found any appointment");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Code appointment" + code + " not found");
         }
-
-
-        
     }
 
     @GetMapping(value="/doctor")
@@ -77,7 +70,7 @@ public class AppointmentRESTController {
         } catch (Exception e){
             System.out.println(e.getLocalizedMessage());
             log.warn("Get appointment list failed");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
@@ -98,8 +91,7 @@ public class AppointmentRESTController {
             return appointmentService.createAppointment(request, patient, doctor);
         } catch (Exception e){
             System.out.println(e.getLocalizedMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
-    
 }

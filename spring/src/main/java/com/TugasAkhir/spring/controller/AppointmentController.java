@@ -47,7 +47,6 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/save/{id}")
-  
     public String saveAppointment(@PathVariable String id, Model model, Principal principal){
 
         String gagalSave = "gagal-save-appointment";
@@ -79,13 +78,9 @@ public class AppointmentController {
         }
         model.addAttribute("appointment", appointment);
         model.addAttribute("status", status);
-        
-        
 
         //Buat tagihan
-        
         InvoiceModel invoice = new InvoiceModel();
-
         invoice.setDateIssued(LocalDateTime.now());
         invoice.setAppointment(appointment);
         invoice.setIsPaid(false);

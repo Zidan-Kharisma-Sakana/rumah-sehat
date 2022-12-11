@@ -2,10 +2,11 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart' hide Element;
 import 'package:http/http.dart' as http;
-import 'package:mobile/detail_appointment.dart';
+
+import '../brev/list_invoices_page.dart';
 
 Future<Invoice> fetchInvoice(String jwtToken, String code) async {
-  String uri = 'http://localhost:8081/api/invoice/detail/' + code;
+  String uri = 'http://localhost:8081/api/invoice/detail/$code';
   final response = await http.get(
     Uri.parse(uri),
     headers: <String, String>{
@@ -17,13 +18,10 @@ Future<Invoice> fetchInvoice(String jwtToken, String code) async {
   if (response.statusCode != 200) {
     throw Exception('Failed to load invoice');
   }
-
   var data = jsonDecode(utf8.decode(response.bodyBytes));
 
-  if (data != null) {
-    Invoice invoice = Invoice.fromJson(data);
-    return invoice;
-  }
+  return Invoice.fromJson(data);
+
 }
 
 class Invoice {
@@ -82,7 +80,7 @@ class _DetailInvoicePageState extends State<DetailInvoicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tagihan Anda"),
+        title: const Text("Tagihan Anda"),
       ),
       body: FutureBuilder(
         future: invoice,
@@ -100,24 +98,20 @@ class _DetailInvoicePageState extends State<DetailInvoicePage> {
                             child: Column(
                               children: [
                                 Container(
-                                  child: Text("Nomor Tagihan : " + invoice.code),
-                                  padding: EdgeInsets.all(7.0),
+                                  padding: const EdgeInsets.all(7.0),
+                                  child: Text("Nomor Tagihan : ${snapshot.data!.code}"),
                                 ),
                                 Container(
-                                  child: Text("Tanggal Terbuat : " +
-                                      translateDate(invoice.dateIssued)),
-                                  padding: EdgeInsets.all(7.0),
+                                  padding: const EdgeInsets.all(7.0),
+                                  child: Text("Tanggal Terbuat : ${translateDate(snapshot.data!.dateIssued)}"),
                                 ),
                                 Container(
-                                  child: Text("Status Pembayaran : " +
-                                      translateStatus(invoice.isPaid)),
-                                  padding: EdgeInsets.all(7.0),
+                                  padding: const EdgeInsets.all(7.0),
+                                  child: Text("Status Pembayaran : ${translateStatus(snapshot.data!.isPaid)}"),
                                 ),
-                                Container(
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                      }, child: Text("Kembali")),
-                                ),
+                                ElevatedButton(
+                                    onPressed: () {
+                                    }, child: const Text("Kembali")),
                               ],
                             ));
               }

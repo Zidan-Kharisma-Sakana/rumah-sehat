@@ -128,15 +128,12 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   child: const Text(
                     "Submit",
-                    style: TextStyle(color: Colors.blue),
                   ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      final response = await request.login("/api/auth/login", {
-                            'username': _name,
-                            'password': _password
-                      });
+                      final response = await request.login("/api/auth/login", _name, _password);
+                      print(jsonDecode(response.body));
                       if (response.statusCode == 200) {
                         setState(() {
                           _success = true;

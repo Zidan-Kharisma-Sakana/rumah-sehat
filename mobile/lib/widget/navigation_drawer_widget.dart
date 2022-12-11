@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile/page/all.dart';
 import 'package:mobile/page/farah/detail-resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
-import '../page/page_3.dart';
-import '../page/page_5.dart';
-import '../page/zidan/login_page.dart';
-import '../page/zidan/register_page.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -137,45 +132,6 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                                 onClicked: () => selectedItem(
                                   context,
                                   3,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 4 (Dummy List Appointment)',
-                                icon: Icons.people_alt,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  4,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 5',
-                                icon: Icons.security_rounded,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  5,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 6',
-                                icon: Icons.wifi_tethering_outlined,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  6,
                                   snapshot.data?[0],
                                   snapshot.data?[1],
                                   snapshot.data?[2],
@@ -339,15 +295,6 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
           ),
         ));
         break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page4(
-            name: name,
-            email: email,
-            jwtToken: jwtToken,
-          ),
-        ));
-        break;
       case 5:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => DetailResep(
@@ -355,15 +302,6 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             email: email,
             jwtToken: jwtToken,
             id: "APT-XXX",
-          ),
-        ));
-        break;
-      case 6:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page6(
-            name: name,
-            email: email,
-            jwtToken: jwtToken,
           ),
         ));
         break;

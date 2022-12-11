@@ -66,19 +66,21 @@ public class AuthRestController {
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
             );
         }
-        System.out.println("Masuk login");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        BaseUser user = userService.findByUsername(userDetails.getUsername());
-        if(!user.getRole().equals("PATIENT")){
-            log.warn("Role is unauthorized. Should be patient");
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            BaseUser user = userService.findByUsername(userDetails.getUsername());
+            log.info("Login successful");
+            return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), jwt));
+        }catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "error"
+            );
         }
-        log.info("Login successful");
-        return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), jwt));
+
     }
 
     @PostMapping("/signup")

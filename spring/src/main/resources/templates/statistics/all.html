@@ -49,12 +49,13 @@
         success: function (doctors) {
           console.log(doctors);
 
-          const datasets = doctors.map((doctor, index) => {
+          const datasets_ = doctors.map((doctor, index) => {
             return {
               label: doctor.name,
               data: doctor.amount,
             };
           });
+
           console.log(datasets);
           const data = {
             labels: MONTHS,

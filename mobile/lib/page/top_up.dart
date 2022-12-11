@@ -18,13 +18,13 @@ class TopUp extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blue,
-          title: Text("Top Up Saldo"),
+          title: const Text("Top Up Saldo"),
           centerTitle: true,
         ),
         body: Builder(
           builder: (context) => Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 32),
             child: ButtonWidget(
               icon: Icons.attach_money,
               text: 'Konfirmasi',

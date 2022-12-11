@@ -22,8 +22,7 @@ public class WebSecurityConfig {
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/auth/login-sso", "/auth/validate-ticket").permitAll()
-                .antMatchers("/user/view-doctor", "/user/add-doctor", "/user/add-apothecary",
-                        "/user/add-apothecary", "/user/view-patient").hasAuthority("ADMIN")
+                .antMatchers("/user/doctor/*", "/user/apothecary/*", "/user/patient/*").hasAuthority("ADMIN")
                 .antMatchers("/appointment/detail/**").hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
                 .antMatchers("/prescription/detail/**").hasAnyAuthority("ADMIN", "DOCTOR", "APOTHECARY","PATIENT")
                 .antMatchers("/prescription/view-all").hasAnyAuthority("ADMIN", "APOTHECARY")

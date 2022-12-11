@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile/page/top_up.dart';
 import 'package:mobile/provider/auth.dart';
 import 'package:mobile/widget/button_widget.dart';
 import 'package:provider/provider.dart';
@@ -154,7 +155,16 @@ class _ProfilePageState extends State<ProfilePage> {
                               minimumSize: const Size.fromHeight(50),
                             ),
                             child: buildContent(),
-                            onPressed: () {},
+                            onPressed: () {
+                              print("topup");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TopUp(
+                                          name: name,
+                                          email: email,
+                                          jwtToken: jwtToken)));
+                            },
                           ),
                         ),
                         const SizedBox(

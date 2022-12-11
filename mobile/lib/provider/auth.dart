@@ -6,7 +6,7 @@ class Authentication {
   // late SharedPreferences local;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  final _BASEURL = "http://localhost:8081";
+  final baseUrl = "http://localhost:9090";
 
   String jwtToken = "";
   String username = "";
@@ -26,13 +26,17 @@ class Authentication {
     }
   }
 
-  Future<http.Response> login(String url, dynamic data) async {
-    http.Response response = await http.post(Uri.parse(_BASEURL + url),
+  Future<http.Response> login(
+      String url, String name, String password) async {
+    http.Response response = await http.post(Uri.parse(baseUrl + url),
         headers: <String, String>{
           'Content-Type': 'application/json;charset=UTF-8',
         },
-        body: jsonEncode(data));
-    final Map parsed = json.decode(response.body);
+        body: jsonEncode(<String, String>{
+          'username': name,
+          'password': password
+        }));
+    final Map parsed = jsonDecode(response.body);
     if (response.statusCode == 200) {
       jwtToken = parsed["jwtToken"];
       email = parsed["email"];

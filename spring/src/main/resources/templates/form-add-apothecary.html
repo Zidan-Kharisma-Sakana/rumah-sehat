@@ -12,7 +12,7 @@
             <div class="justify-content-center">
                 <h2>Add Apothecary</h2>
                 <br>
-                <form th:action="@{/user/add-apothecary}" th:object="${apothecary}" method="POST">
+                <form th:action="@{/user/apothecary/add}" th:object="${apothecary}" method="POST">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control">
 
@@ -29,7 +29,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a class="btn btn-link" href="/user/view-apothecary">Back</a>
+                    <a class="btn btn-link" href="/user/apothecary/all">Back</a>
                 </form>
             </div>
         </div>

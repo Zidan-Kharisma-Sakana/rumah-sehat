@@ -28,55 +28,54 @@ public class UserController {
     @Autowired
     private PatientService patientService;
 
-    @GetMapping(value = "/view-doctor")
+    @GetMapping(value = "/doctor/all")
     private String viewDoctor(Model model) {
         List<DoctorModel> listDoctor = doctorService.findAll();
         model.addAttribute("listDoctor", listDoctor);
         return "view-doctor";
     }
 
-    @GetMapping(value = "/add-doctor")
+    @GetMapping(value = "/doctor/add")
     private String addDoctorFormPage(Model model) {
         DoctorModel doctor = new DoctorModel();
         model.addAttribute("doctor", doctor);
         return "form-add-doctor";
     }
 
-    @PostMapping(value = "/add-doctor")
+    @PostMapping(value = "/doctor/add")
     private String addDoctorSubmit(@ModelAttribute DoctorModel doctor) {
         doctorService.addDoctor(doctor);
-        return "redirect:/";
+        return "redirect:/user/doctor/all";
     }
 
-    @GetMapping("/delete-doctor/{username}")
+    @GetMapping("/doctor/delete/{username}")
     private String deleteDoctor(@PathVariable String username) {
         DoctorModel user = doctorService.getUserByUsername(username);
-
         doctorService.deleteUser(user);
-        return "redirect:/";
+        return "redirect:/user/doctor/all";
     }
 
-    @GetMapping(value = "/view-apothecary")
+    @GetMapping(value = "/apothecary/all")
     private String viewApothecary(Model model) {
         List<ApothecaryModel> listApothecary = apothecaryService.findAll();
         model.addAttribute("listApothecary", listApothecary);
         return "view-apothecary";
     }
 
-    @GetMapping(value = "/add-apothecary")
+    @GetMapping(value = "/apothecary/add")
     private String addApothecary(Model model) {
         ApothecaryModel apothecary = new ApothecaryModel();
         model.addAttribute("apothecary", apothecary);
         return "form-add-apothecary";
     }
 
-    @PostMapping(value = "/add-apothecary")
+    @PostMapping(value = "/apothecary/add")
     private String addApothecarySubmit(@ModelAttribute ApothecaryModel apothecary) {
         apothecaryService.addApothecary(apothecary);
         return "redirect:/";
     }
 
-    @GetMapping("/delete-apothecary/{username}")
+    @GetMapping("/apothecary/delete/{username}")
     private String deleteApothecary(@PathVariable String username) {
         ApothecaryModel user = apothecaryService.getUserByUsername(username);
 
@@ -84,7 +83,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/view-patient")
+    @GetMapping(value = "/patient/all")
     private String viewPatient(Model model) {
         List<PatientModel> listPatient = patientService.findAll();
         model.addAttribute("listPatient", listPatient);

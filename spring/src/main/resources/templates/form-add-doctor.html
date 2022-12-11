@@ -12,7 +12,7 @@
             <div class="justify-content-center">
                 <h2>Add Doctor</h2>
                 <br>
-                <form th:action="@{/user/add-doctor}" th:object="${doctor}" method="POST">
+                <form th:action="@{/user/doctor/add}" th:object="${doctor}" method="POST">
                     <label>Username</label>
                     <input type="text" name="username" class="form-control">
 
@@ -32,7 +32,7 @@
 
                     <br>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a class="btn btn-link" href="/user/view-doctor">Back</a>
+                    <a class="btn btn-link" href="/user/doctor/all">Back</a>
                 </form>
             </div>
         </div>

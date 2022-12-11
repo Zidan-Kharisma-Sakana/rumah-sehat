@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile/page/farah/model/resep.dart';
-import 'package:mobile/widget/button_widget.dart';
-import 'package:json_helpers/json_helpers.dart';
 
-import 'model/drug.dart';
 
 class DetailResep extends StatefulWidget {
   final String name;
