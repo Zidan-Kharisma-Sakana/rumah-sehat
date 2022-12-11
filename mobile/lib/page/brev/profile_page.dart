@@ -9,15 +9,16 @@ import 'package:mobile/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
 Future<Profile> fetchProfile(String jwtToken) async {
-  final response = await http.get(Uri.parse('http://localhost:8081/api/user'), headers: <String, String>{
-    'Content-Type': 'application/json;charset=UTF-8',
-    'Authorization': 'Bearer $jwtToken'
-  });
+  final response = await http.get(Uri.parse('http://localhost:8081/api/user'),
+      headers: <String, String>{
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Authorization': 'Bearer $jwtToken'
+      });
 
   if (response.statusCode == 200) {
     return Profile.fromJson(jsonDecode(response.body));
   } else {
-    throw Exception('Failed to load Profile');
+    throw Exception('Gagal memuat halaman profil Anda');
   }
 }
 
