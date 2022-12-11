@@ -1,12 +1,14 @@
 package com.TugasAkhirAPI.springapi.service;
 
 import com.TugasAkhirAPI.springapi.model.AppointmentModel;
+import com.TugasAkhirAPI.springapi.model.DrugModel;
 import com.TugasAkhirAPI.springapi.model.InvoiceModel;
 import com.TugasAkhirAPI.springapi.model.User.AdminModel;
 import com.TugasAkhirAPI.springapi.model.User.ApothecaryModel;
 import com.TugasAkhirAPI.springapi.model.User.DoctorModel;
 import com.TugasAkhirAPI.springapi.model.User.PatientModel;
 import com.TugasAkhirAPI.springapi.repository.AppointmentDB;
+import com.TugasAkhirAPI.springapi.repository.DrugDB;
 import com.TugasAkhirAPI.springapi.repository.InvoiceDB;
 import com.TugasAkhirAPI.springapi.repository.User.AdminDB;
 import com.TugasAkhirAPI.springapi.repository.User.ApothecaryDB;
@@ -32,6 +34,9 @@ public class DummyService {
 
     @Autowired
     InvoiceDB invoiceDB;
+
+    @Autowired
+    DrugDB drugDB;
 
     @Autowired
     AppointmentDB appointmentDB;
@@ -67,6 +72,15 @@ public class DummyService {
         apothecary.setRole("APOTHECARY");
         apothecary.setPassword(encrypt("apoteker"));
         apothecaryDB.save(apothecary);
+    }
+
+    public void createDummyDrug(){
+        DrugModel drug = new DrugModel();
+        drug.setName("Paracetamol");
+        drug.setId("1");
+        drug.setStock(Long.valueOf(15));
+        drug.setPrice(Long.valueOf(12000));
+        drugDB.save(drug);
     }
 
     public void createDummyAdmin(){

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import com.TugasAkhirAPI.springapi.model.PrescriptionModel;
 import com.TugasAkhirAPI.springapi.service.PrescriptionService;
 
 // Notes: Please use english verb/adjective to describe your path
+@Slf4j
 @RestController
 @RequestMapping("/api/prescription")
 public class PrescriptionRESTController {
@@ -30,17 +32,17 @@ public class PrescriptionRESTController {
     @GetMapping(value="/detail/{id}")
     private PrescriptionMobile detailAppointment(@PathVariable("id") String id){
         try{
-            
+            log.info("Try to get prescription detail");
             PrescriptionMobile pres = prescriptionService.findById(Long.parseLong(id));
             System.out.println(pres.getNamaConfirmer());
             System.out.println(pres.getNamaPasien());
             System.out.println(pres.getNamaDokter());
             System.out.println(pres.getListDrug());
-            
             System.out.println(pres.getStatus());
             System.out.println(pres.getWaktuAwal());
-
-
+            if (pres != null){
+                log.info("Prescription founded, there are the details");
+            }
             return prescriptionService.findById(Long.parseLong(id));
             
         } catch (NoSuchElementException e){
@@ -77,13 +79,15 @@ public class PrescriptionRESTController {
     @GetMapping(value="/detail-drugs/{id}")
     private List<DrugPrescriptionDetail> detailDrugPrescription(@PathVariable("id") String id){
         try{
-            
+            log.info("Try to get drug details from prescription");
             PrescriptionMobile pres = prescriptionService.findById(Long.parseLong(id));
-
-
+            if(pres != null){
+                log.info("Prescription founded, there are details of drug");
+            }
             return pres.getListDrug();
             
         } catch (NoSuchElementException e){
+            log.warn("Prescription not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Prescription" + id + " not found");
         }
         
