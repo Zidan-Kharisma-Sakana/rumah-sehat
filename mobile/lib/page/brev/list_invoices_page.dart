@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:interval_time_picker/interval_time_picker.dart';
 
 Future<List<Invoice>> fetchInvoices(String jwtToken, String name) async {
   String uri = 'http://localhost:8081/api/invoice/get-all/' + name;
@@ -120,7 +121,15 @@ class _ListInvoicesPageState extends State<ListInvoicesPage> {
                         ),
                         Container(
                           child: ElevatedButton(
-                              onPressed: () {}, child: Text("Detail")),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => DetailInvoicePage(
+                                    code: invoice.code,
+                                    jwtToken: jwtToken,
+                                  ),
+                                ));
+                              },
+                              child: Text("Detail")),
                         ),
                       ],
                     ));
@@ -163,4 +172,70 @@ String translateDate(DateTime date) {
 
   String output = day + " " + month + " " + year;
   return output;
+}
+
+Future<Invoice> fetchInvoice(String jwtToken, String code) async {
+  String uri = 'http://localhost:8081/api/invoice/detail/' + code;
+  final response = await http.get(
+    Uri.parse(uri),
+    headers: <String, String>{
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': 'Bearer $jwtToken'
+    },
+  );
+
+  if (response.statusCode != 200) {
+    throw Exception('Failed to load invoice');
+  }
+
+  var data = jsonDecode(utf8.decode(response.bodyBytes));
+
+  if (data != null) {
+    Invoice invoice = Invoice.fromJson(data);
+    return invoice;
+  }
+  Invoice invoice = Invoice(
+      code: "A",
+      amount: 1,
+      dateIssued: DateTime.now(),
+      datePaid: DateTime.now(),
+      isPaid: false);
+  return invoice;
+}
+
+class DetailInvoicePage extends StatefulWidget {
+  final String jwtToken;
+  final String code;
+
+  const DetailInvoicePage({
+    Key? key,
+    required this.jwtToken,
+    required this.code,
+  }) : super(key: key);
+
+  @override
+  _DetailInvoicePageState createState() => _DetailInvoicePageState();
+}
+
+class _DetailInvoicePageState extends State<DetailInvoicePage> {
+  late String jwtToken;
+  late String code;
+  late Future<Invoice> invoice;
+
+  @override
+  void initState() {
+    super.initState();
+    jwtToken = widget.jwtToken;
+    code = widget.code;
+    invoice = fetchInvoice(jwtToken, code);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Tagihan Anda"),
+        ),
+        body: Text("Test"));
+  }
 }

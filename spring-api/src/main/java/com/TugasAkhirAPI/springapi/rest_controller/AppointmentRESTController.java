@@ -14,6 +14,7 @@ import com.TugasAkhirAPI.springapi.model.User.PatientModel;
 import com.TugasAkhirAPI.springapi.service.AppointmentService;
 import com.TugasAkhirAPI.springapi.service.User.DoctorService;
 import com.TugasAkhirAPI.springapi.service.User.PatientService;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,6 +53,8 @@ public class AppointmentRESTController {
         } catch (NoSuchElementException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Code Course" + code + " not found");
         }
+
+
         
     }
 

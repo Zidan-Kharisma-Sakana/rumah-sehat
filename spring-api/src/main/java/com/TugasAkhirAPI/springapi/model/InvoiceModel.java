@@ -53,4 +53,9 @@ public class InvoiceModel {
     @JoinColumn(name = "appointment_code")
     @Nullable
     private AppointmentModel appointment;
+
+
+
+
+
 }
