@@ -5,6 +5,7 @@ import 'package:mobile/page/rayyan/model/appointmentModel.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:mobile/page/farah/detail_appointment.dart';
+// import '../../detail_appointment.dart';
 
 Future<List<AppointmentModel>> fetchAppointments(String jwtToken) async {
   var response = await http.get(
