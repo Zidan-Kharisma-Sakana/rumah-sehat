@@ -82,7 +82,7 @@ class _DetailResepState extends State<DetailResep> {
 
   Future<Resep> fetchPrescription(String jwtToken, String id) async {
     final response = await http.get(
-        Uri.parse('http://localhost:8081/api/prescription/detail/$code'),
+        Uri.parse('https://apap-059.cs.ui.ac.id/api/prescription/detail/$code'),
         headers: <String, String>{
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': 'Bearer $jwtToken'

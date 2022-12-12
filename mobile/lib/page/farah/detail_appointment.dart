@@ -71,7 +71,7 @@ class _DetailAppointmentState extends State<DetailAppointment> {
 
   Future<Appointment> fetchAppointment(String jwtToken, String code) async {
     final response = await http.get(
-        Uri.parse('http://localhost:8081/api/appointment/detail/$code'),
+        Uri.parse('https://apap-059.cs.ui.ac.id/api/appointment/detail/$code'),
         headers: <String, String>{
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': 'Bearer $jwtToken'

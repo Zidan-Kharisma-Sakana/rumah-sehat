@@ -6,7 +6,7 @@ class Authentication {
   // late SharedPreferences local;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  final baseUrl = "http://localhost:9090";
+  final baseUrl = "https://apap-059.cs.ui.ac.id";
 
   String jwtToken = "";
   String username = "";

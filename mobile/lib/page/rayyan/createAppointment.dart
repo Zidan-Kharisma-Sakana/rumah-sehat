@@ -8,7 +8,7 @@ import 'listAppointments.dart';
 
 Future<List<DoctorModel>> fetchDoctors(String jwtToken) async {
   var response = await http.get(
-    Uri.parse('http://localhost:8081/api/appointment/doctor'),
+    Uri.parse('https://apap-059.cs.ui.ac.id/api/appointment/doctor'),
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
@@ -197,7 +197,7 @@ class _CreateAppointment extends State<CreateAppointment> {
                         }
                         final response = await http.post(
                             Uri.parse(
-                                "http://localhost:8081/api/appointment/add"),
+                                "https://apap-059.cs.ui.ac.id/api/appointment/add"),
                             headers: <String, String>{
                               'Content-Type': 'application/json;charset=UTF-8',
                               'Authorization': 'Bearer $jwtToken'

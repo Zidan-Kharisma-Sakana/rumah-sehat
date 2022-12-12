@@ -9,7 +9,7 @@ import 'package:mobile/page/farah/detail_appointment.dart';
 
 Future<List<AppointmentModel>> fetchAppointments(String jwtToken) async {
   var response = await http.get(
-    Uri.parse('http://localhost:8081/api/appointment/all'),
+    Uri.parse('https://apap-059.cs.ui.ac.id/api/appointment/all'),
     headers: {
       "Access-Control-Allow-Origin": "*",
       'Authorization': 'Bearer $jwtToken'

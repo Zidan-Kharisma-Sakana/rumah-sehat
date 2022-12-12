@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../brev/list_invoices_page.dart';
 
 Future<Invoice> fetchInvoice(String jwtToken, String code) async {
-  String uri = 'http://localhost:8081/api/invoice/detail/$code';
+  String uri = 'https://apap-059.cs.ui.ac.id/api/invoice/detail/$code';
   final response = await http.get(
     Uri.parse(uri),
     headers: <String, String>{

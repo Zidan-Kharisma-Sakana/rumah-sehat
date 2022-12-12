@@ -226,7 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       _formKey.currentState!.save();
                       final response = await http.post(
                           Uri.parse(
-                              "http://localhost:8081/api/auth/signup"),
+                              "https://apap-059.cs.ui.ac.id/api/auth/signup"),
                           headers: <String, String>{
                             'Content-Type': 'application/json;charset=UTF-8',
                           },

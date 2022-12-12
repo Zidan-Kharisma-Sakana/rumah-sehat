@@ -10,7 +10,7 @@ import 'package:mobile/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
 Future<Profile> fetchProfile(String jwtToken) async {
-  final response = await http.get(Uri.parse('http://localhost:8081/api/user'),
+  final response = await http.get(Uri.parse('https://apap-059.cs.ui.ac.id/api/user'),
       headers: <String, String>{
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': 'Bearer $jwtToken'

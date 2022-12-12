@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:interval_time_picker/interval_time_picker.dart';
 
 Future<List<Invoice>> fetchInvoices(String jwtToken, String name) async {
-  String uri = 'http://localhost:8081/api/invoice/get-all/' + name;
+  String uri = 'https://apap-059.cs.ui.ac.id/api/invoice/get-all/' + name;
   final response = await http.get(
     Uri.parse(uri),
     headers: <String, String>{
@@ -175,7 +175,7 @@ String translateDate(DateTime date) {
 }
 
 Future<Invoice> fetchInvoice(String jwtToken, String code) async {
-  String uri = 'http://localhost:8081/api/invoice/detail/' + code;
+  String uri = 'https://apap-059.cs.ui.ac.id/api/invoice/detail/' + code;
   final response = await http.get(
     Uri.parse(uri),
     headers: <String, String>{
