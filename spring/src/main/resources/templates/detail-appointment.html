@@ -24,8 +24,8 @@
                 <br>
                 <a class="btn btn-primary" th:href="@{/}">Kembali</a>
                 
-                <a sec:authorize="hasRole('DOCTOR')" th:if="${!appointment.isDone and appointment.prescription != null  and appointment.prescription.getIsDone()}" class="btn btn-primary" th:href="@{/appointment/save/} + ${appointment.code}" >Selesai</a>
-                <button sec:authorize="hasRole('DOCTOR')" type="button" class="btn btn-primary" th:if="${!appointment.isDone and appointment.prescription == null }"  data-bs-toggle="modal" href="#staticBackdrop">Selesai</button>
+                <a sec:authorize="hasAuthority('DOCTOR')" th:if="${!appointment.isDone and appointment.prescription != null  and appointment.prescription.getIsDone()}" class="btn btn-primary" th:href="@{/appointment/save/} + ${appointment.code}" >Selesai</a>
+                <button sec:authorize="hasAuthority('DOCTOR')" type="button" class="btn btn-primary" th:if="${!appointment.isDone and appointment.prescription == null }"  data-bs-toggle="modal" href="#staticBackdrop">Selesai</button>
 
 
                   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
