@@ -9,6 +9,7 @@ import com.TugasAkhirAPI.springapi.security.JwtUtils;
 import com.TugasAkhirAPI.springapi.service.DummyService;
 import com.TugasAkhirAPI.springapi.service.User.PatientService;
 import com.TugasAkhirAPI.springapi.service.User.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -44,10 +46,13 @@ public class AuthRestController {
     @GetMapping("/dummy")
     private String createDummyUser(){
         try {
+            log.info("Try to creating dummy data");
             dummyService.createDummyAdmin();
             dummyService.createDummyApothecary();
             dummyService.createDummyDoctor();
             dummyService.createDummyPatient();
+            dummyService.createDummyInvoice();
+            dummyService.createDummyDrug();
         } catch (Exception e){
             return e.getLocalizedMessage();
         }
@@ -61,17 +66,21 @@ public class AuthRestController {
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
             );
         }
-        System.out.println("Masuk login");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        BaseUser user = userService.findByUsername(userDetails.getUsername());
-        if(!user.getRole().equals("PATIENT")){
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            BaseUser user = userService.findByUsername(userDetails.getUsername());
+            log.info("Login successful");
+            return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), jwt));
+        }catch (Exception e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "No patient with such username and password"
+            );
         }
-        return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), jwt));
+
     }
 
     @PostMapping("/signup")
@@ -82,8 +91,6 @@ public class AuthRestController {
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
             );
         }
-
-
         PatientModel patient = null;
         try {
             System.out.println(form.getUsername());

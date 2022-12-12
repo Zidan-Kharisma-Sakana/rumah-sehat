@@ -13,4 +13,8 @@ public class InvoiceService {
     public InvoiceModel add(InvoiceModel invoice){
         return invoiceDB.save(invoice);
     }
+
+    public InvoiceModel update(InvoiceModel invoice){
+        return invoiceDB.save(invoice);
+    }
 }

@@ -17,7 +17,7 @@
                 <h2>List Apothecary</h2>
                 <br>
                 <a class="btn btn-primary" href="/">Beranda</a>
-                <a th:href="@{/user/add-apothecary}" class="mx-2 btn btn-outline-success">Add Apothecary</a>
+                <a th:href="@{/user/apothecary/add}" class="mx-2 btn btn-outline-success">Add Apothecary</a>
                 <br>
                 <br>
                 <table class="table">
@@ -38,7 +38,7 @@
                         <td th:text="${apothecary.name}"></td>
                         <td th:text="${apothecary.username}"></td>
                         <td>
-                            <a class="btn btn-danger" th:href="@{/user/delete-apothecary/} + ${apothecary.username}">Hapus</a>
+                            <a class="btn btn-danger" th:href="@{/user/apothecary/delete/} + ${apothecary.username}">Hapus</a>
                         </td>
                     </tr>
                     </tbody>

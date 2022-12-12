@@ -17,7 +17,7 @@
                 <h2>List Doctor</h2>
                 <br>
                 <a class="btn btn-primary" href="/">Beranda</a>
-                <a th:href="@{/user/add-doctor}" class="mx-2 btn btn-outline-success">Add Doctor</a>
+                <a th:href="@{/user/doctor/add}" class="mx-2 btn btn-outline-success">Add Doctor</a>
                 <br>
                 <br>
                 <table class="table">
@@ -40,7 +40,7 @@
                         <td th:text="${doctor.username}"></td>
                         <td th:text="${doctor.fee}"></td>
                         <td>
-                            <a class="btn btn-danger" th:href="@{/user/delete-doctor/} + ${doctor.username}">Hapus</a>
+                            <a class="btn btn-danger" th:href="@{/user/doctor/delete/} + ${doctor.username}">Hapus</a>
                         </td>
                     </tr>
                     </tbody>

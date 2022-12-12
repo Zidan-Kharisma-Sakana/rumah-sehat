@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:mobile/page/rayyan/model/appointmentModel.dart';
 import 'package:http/http.dart' as http;
 
-import '../../detail_appointment.dart';
+import 'package:mobile/page/farah/detail_appointment.dart';
+// import '../../detail_appointment.dart';
 
 Future<List<AppointmentModel>> fetchAppointments(String jwtToken) async {
   var response = await http.get(
@@ -42,24 +43,24 @@ class ListAppointments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: const Text("List Appointment"),
-          centerTitle: true,
-        ),
-        body: FutureBuilder(
-          future: fetchAppointments(jwtToken),
-          builder: (context, AsyncSnapshot<List<AppointmentModel>> snapshot){
-            if(snapshot.data == null){
-              return const Center(child: CircularProgressIndicator());
-            }
-            return ListView(
-              children: snapshot.data!.map((AppointmentModel appointment){
-                return Card(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text("List Appointment"),
+        centerTitle: true,
+      ),
+      body: FutureBuilder(
+        future: fetchAppointments(jwtToken),
+        builder: (context, AsyncSnapshot<List<AppointmentModel>> snapshot) {
+          if (snapshot.data == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return ListView(
+              children: snapshot.data!.map((AppointmentModel appointment) {
+            return Card(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                   ListTile(
+                  ListTile(
                     title: Text(appointment.doctor_name),
                   ),
                   Row(
@@ -82,10 +83,7 @@ class ListAppointments extends StatelessWidget {
                 ],
               ),
             );
-          }).toList()
-        );
-          },
-        )
-      );
-
+          }).toList());
+        },
+      ));
 }

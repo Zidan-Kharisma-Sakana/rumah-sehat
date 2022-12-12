@@ -1,5 +1,4 @@
 package com.TugasAkhirAPI.springapi.rest_controller;
-
 import com.TugasAkhirAPI.springapi.model.User.PatientModel;
 import com.TugasAkhirAPI.springapi.service.User.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-
 // Notes: Please use english verb/adjective to describe your path
 @RestController
 @RequestMapping("/api/user")
@@ -22,5 +20,4 @@ public class UserRESTController {
     public PatientModel getPatientProfile(Principal principal){
         return patientService.getPatientByUsername(principal.getName());
     }
-
 }

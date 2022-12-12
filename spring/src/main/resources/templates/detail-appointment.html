@@ -6,7 +6,7 @@
     <object th:include="fragments/fragment :: js " th:remove="tag"></object>
 </head>
 <body>
-    
+  <nav th:replace="fragments/fragment :: navbar(page = 'Appointment')"></nav>
 <div class="container">
     <div class="card m-4 p-4">
         <div class="card-body">
@@ -24,8 +24,8 @@
                 <br>
                 <a class="btn btn-primary" th:href="@{/}">Kembali</a>
                 
-                <a th:if="${role=='DOCTOR' and !appointment.isDone and appointment.prescription != null  and appointment.prescription.getIsDone()}" class="btn btn-primary" th:href="@{/appointment/save/} + ${appointment.code}" >Selesai</a>
-                <button type="button" class="btn btn-primary" th:if="${role=='DOCTOR' and !appointment.isDone and appointment.prescription == null }"  data-bs-toggle="modal" href="#staticBackdrop">Selesai</button>
+                <a sec:authorize="hasRole('DOCTOR')" th:if="${!appointment.isDone and appointment.prescription != null  and appointment.prescription.getIsDone()}" class="btn btn-primary" th:href="@{/appointment/save/} + ${appointment.code}" >Selesai</a>
+                <button sec:authorize="hasRole('DOCTOR')" type="button" class="btn btn-primary" th:if="${!appointment.isDone and appointment.prescription == null }"  data-bs-toggle="modal" href="#staticBackdrop">Selesai</button>
 
 
                   <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -45,8 +45,8 @@
                       </div>
                     </div>
                   </div>
-                <a th:if="${appointment.prescription != null}"  class="btn btn-primary" th:href="@{/} ">Detail resep</a>
-                <a  th:if="${appointment.prescription == null and !appointment.isDone and role=='DOCTOR' }" class="btn btn-primary" th:href="@{/prescription/add/} + ${appointment.code}">Add resep</a>
+                <a th:if="${appointment.prescription != null}"  class="btn btn-primary" th:href="@{/prescription/detail/} + ${appointment.prescription.getId()}">Detail resep</a>
+                <a sec:authorize="hasAuthority('DOCTOR')"   th:if="${appointment.prescription == null and !appointment.isDone}" class="btn btn-primary" th:href="@{/prescription/add/} + ${appointment.code}">Add resep</a>
             </div>
         </div>
     </div>

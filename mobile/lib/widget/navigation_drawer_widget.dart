@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/page/all.dart';
+import 'package:mobile/page/farah/detail-resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../page/page_3.dart';
-import '../page/page_5.dart';
-import '../page/zidan/login_page.dart';
-import '../page/zidan/register_page.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
@@ -51,8 +47,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    const urlImage =
-        'https://64.media.tumblr.com/b2274200b6c46495f31c1e0a6678dc86/05ebb2b05dc70fb3-60/s640x960/a42b3a3ccd9fdf24d376508c7e223fb0db40de08.jpg';
+    const urlImage = "https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg";
     return SizedBox(
       width: MediaQuery.of(context).size.width *
           0.75, // 75% of screen will be occupied
@@ -137,45 +132,6 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                                 onClicked: () => selectedItem(
                                   context,
                                   3,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 4 (Dummy List Appointment)',
-                                icon: Icons.people_alt,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  4,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 5',
-                                icon: Icons.security_rounded,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  5,
-                                  snapshot.data?[0],
-                                  snapshot.data?[1],
-                                  snapshot.data?[2],
-                                ),
-                              ),
-                              const SizedBox(height: 3),
-                              buildMenuItem(
-                                isLoggedIn: isLoggedIn,
-                                text: 'Page 6',
-                                icon: Icons.wifi_tethering_outlined,
-                                onClicked: () => selectedItem(
-                                  context,
-                                  6,
                                   snapshot.data?[0],
                                   snapshot.data?[1],
                                   snapshot.data?[2],
@@ -295,7 +251,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     }
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
+      title: Text(text, style: const TextStyle(color: color)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );
@@ -333,37 +289,19 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page3(
+          builder: (context) => ListInvoicesPage(
             name: name,
-            email: email,
-            jwtToken: jwtToken,
-          ),
-        ));
-        break;
-      case 4:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page4(
-            name: name,
-            email: email,
             jwtToken: jwtToken,
           ),
         ));
         break;
       case 5:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page5(
+          builder: (context) => DetailResep(
             name: name,
             email: email,
             jwtToken: jwtToken,
-          ),
-        ));
-        break;
-      case 6:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Page6(
-            name: name,
-            email: email,
-            jwtToken: jwtToken,
+            id: "APT-XXX",
           ),
         ));
         break;

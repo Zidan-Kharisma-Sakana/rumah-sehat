@@ -8,4 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/invoice")
 public class InvoiceController {
+
 }
