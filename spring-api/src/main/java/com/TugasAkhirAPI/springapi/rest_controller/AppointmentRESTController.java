@@ -15,9 +15,14 @@ import com.TugasAkhirAPI.springapi.service.AppointmentService;
 import com.TugasAkhirAPI.springapi.service.User.DoctorService;
 import com.TugasAkhirAPI.springapi.service.User.PatientService;
 <<<<<<< HEAD
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+=======
+<<<<<<< HEAD
 import lombok.extern.slf4j.Slf4j;
 =======
 >>>>>>> rayyan/fitur-6-7
+>>>>>>> fa21fdf82238a20791a878f804b831c5fdc8974c
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,16 +105,19 @@ public class AppointmentRESTController {
 
     @GetMapping(value="/doctor")
     private List<DoctorModel> allDoctors(){
+        log.info("Find all doctor");
         return doctorService.findAll();
     }
 
     @GetMapping(value="/all")
     private List<AppointmentResponse> allAppointment(Principal principal){
         try{
+            log.info("Try to get all appointment");
             PatientModel patient = patientService.getPatientByUsername(principal.getName());
             return appointmentService.returnAppointments(patient);
         } catch (Exception e){
             System.out.println(e.getLocalizedMessage());
+            log.warn("Get appointment list failed");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getLocalizedMessage());
         }
     }
@@ -122,8 +130,12 @@ public class AppointmentRESTController {
             );
         }
         try{
+            log.info("Try to create appointment");
             PatientModel patient = patientService.getPatientByUsername(principal.getName());
             DoctorModel doctor = doctorService.findByUuid(request.getDoctor_uuid());
+            if(patient != null && doctor != null){
+                log.info("Create appointment success!");
+            }
             return appointmentService.createAppointment(request, patient, doctor);
         } catch (Exception e){
             System.out.println(e.getLocalizedMessage());
