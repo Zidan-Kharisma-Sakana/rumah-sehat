@@ -3,11 +3,6 @@ import 'package:mobile/page/all.dart';
 import 'package:mobile/page/farah/detail-resep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../page/page_3.dart';
-import '../page/page_5.dart';
-import '../page/zidan/login_page.dart';
-import '../page/zidan/register_page.dart';
-
 class NavigationDrawerWidget extends StatefulWidget {
   const NavigationDrawerWidget({Key? key}) : super(key: key);
   @override
@@ -256,7 +251,7 @@ class NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     }
     return ListTile(
       leading: Icon(icon, color: color),
-      title: Text(text, style: TextStyle(color: color)),
+      title: Text(text, style: const TextStyle(color: color)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );

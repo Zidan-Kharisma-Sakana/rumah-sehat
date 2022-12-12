@@ -156,7 +156,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: buildContent(),
                             onPressed: () {
-                              print("topup");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -77,7 +77,7 @@ public class AuthRestController {
             return ResponseEntity.ok(new LoginResponse(user.getUsername(), user.getEmail(), jwt));
         }catch (Exception e){
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "error"
+                    HttpStatus.BAD_REQUEST, "No patient with such username and password"
             );
         }
 
@@ -91,8 +91,6 @@ public class AuthRestController {
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"
             );
         }
-
-
         PatientModel patient = null;
         try {
             System.out.println(form.getUsername());
