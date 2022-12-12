@@ -42,11 +42,11 @@
 # Dokumentasi REST API RumahSehat
 
 
-Rest API untuk Tugas Akhir APAP 2022 \
+Rest API untuk Tugas Akhir APAP 2022 
 
-Base URL: https://apap-059.cs.ui.ac.id/api/ \
+Base URL: https://apap-059.cs.ui.ac.id/api/ 
 
-API List: authenticateUser patientRegistration createAppointment allAppointment detailAppointment detailPrescription allDoctors retrieveListInvoice detailPrescription getPatientProfile  
+API List: authenticateUser patientRegistration createAppointment allAppointment detailAppointment detailPrescription allDoctors retrieveListInvoice detailPrescription getPatientProfile  getInvoice settleInvoice
 
 ---
 
@@ -71,6 +71,17 @@ Body Param
     "name": "pasien",
     "email": "pasien@gmail.com",
     "jwtToken": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwYXNpZW4iLCJpYXQiOjE2NzA4MDgyODgsImV4cCI6MTY3MDg5NDY4OH0.IU4hvqyOXy81mLAxy79ZEeMNaz4FhRO_LM1K9S1rEz7YHUBCxYnQkl6fMeMFw1XVar9JF1CWN2FPd8MVsrI84g"
+}
+```
+
+**Failed Response**
+```
+{
+    "timestamp": "2022-12-12T15:36:43.501+00:00",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "No patient with such username and password",
+    "path": "/api/auth/login"
 }
 ```
 
@@ -250,7 +261,7 @@ Header:
 
 Mengambil daftar Invoice.\
 URL: https://apap-059.cs.ui.ac.id/api/invoice/get-all/{username} \
-Method: GET
+Method: GET \
 Header:
 - Content-Type: application/json;charset=UTF-8
 - Authorization: Bearer {jwtToken}
@@ -276,4 +287,55 @@ Header:
 ]
 ```
 
+## getInvoice
+
+Mengambil detail Invoice.\
+URL: https://apap-059.cs.ui.ac.id/api/invoice/detail/{code} \
+Method: GET
+Header:
+- Content-Type: application/json;charset=UTF-8
+- Authorization: Bearer {jwtToken}
+
+
+**Success Response**
+```
+{
+    "code": "BILL-1",
+    "dateIssued": "2022-12-12T08:18:04",
+    "datePaid": "2022-12-12T08:18:04",
+    "isPaid": true,
+    "amount": 1000
+}
+```
+
+## settleInvoice
+
+Memabayar tagihan invoice.\
+URL: https://apap-059.cs.ui.ac.id/api/invoice/settle/{code} \
+Method: PUT \
+Header:
+- Content-Type: application/json;charset=UTF-8
+- Authorization: Bearer {jwtToken}
+
+
+**Success Response**
+```
+{
+    "code": "BILL-1",
+    "dateIssued": "2022-12-12T08:18:04",
+    "datePaid": "2022-12-12T08:18:04",
+    "isPaid": true,
+    "amount": 1000
+}
+```
+**Failed Response**
+```
+{
+    "timestamp": "2022-12-12T15:30:20.811+00:00",
+    "status": 400,
+    "error": "Bad Request",
+    "message": "Saldo tidak cukup",
+    "path": "/api/invoice/settle/BILL-1"
+}
+```
 
