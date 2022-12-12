@@ -23,7 +23,7 @@ public Serializable generate(SharedSessionContractImplementor  session, Object o
     try {
         Statement statement=connection.createStatement();
 
-        ResultSet rs=statement.executeQuery("select count(code) as Code from Invoice");
+        ResultSet rs=statement.executeQuery("select count(code) as Code from invoice");
 
         if(rs.next())
         {
