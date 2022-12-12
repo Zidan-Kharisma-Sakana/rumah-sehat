@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class InvoiceModel {
     @Id
-    @GenericGenerator(name = "code", strategy = "com.TugasAkhirAPI.springapi.modelInvoiceCodeGenerator")
+    @GenericGenerator(name = "code", strategy = "com.TugasAkhirAPI.springapi.model.InvoiceCodeGenerator")
     @GeneratedValue(generator = "code")  
     @Column(name="code")
     private String code;
