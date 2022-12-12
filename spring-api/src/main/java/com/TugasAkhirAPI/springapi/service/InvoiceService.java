@@ -4,6 +4,8 @@ import com.TugasAkhirAPI.springapi.model.AppointmentModel;
 import com.TugasAkhirAPI.springapi.model.InvoiceModel;
 import com.TugasAkhirAPI.springapi.repository.AppointmentDB;
 import com.TugasAkhirAPI.springapi.repository.*;
+
+import org.attoparser.select.IMarkupSelectorReferenceResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,12 @@ public class InvoiceService {
 
     public InvoiceModel payInvoice (InvoiceModel invoice){
         invoice.setIsPaid(Boolean.TRUE);
+       
+        return invoice;
+    }
+
+    public InvoiceModel update(InvoiceModel invoice){
+        invoiceDB.save(invoice);
         return invoice;
     }
 

@@ -30,6 +30,9 @@ public class StatisticsController {
     private List<YearlySalary> getSalaryThisYear(){
         try {
             log.info("Try to get statistics this year");
+<<<<<<< HEAD
+            return statisticService.getThisYearSalary();
+=======
             List<YearlySalary> yearlySalaries = new ArrayList<>();
             DoctorModel allDoctorRep = new DoctorModel();
             allDoctorRep.setName("Semua Dokter");
@@ -38,6 +41,7 @@ public class StatisticsController {
                     .calculate();
             yearlySalaries.add(allDokter);
             return yearlySalaries;
+>>>>>>> fa21fdf82238a20791a878f804b831c5fdc8974c
         }
         catch (Exception e){
             log.warn("Not found any statistic");
