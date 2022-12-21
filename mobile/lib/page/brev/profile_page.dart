@@ -4,13 +4,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobile/page/top_up.dart';
+import 'package:mobile/page/rayyan/top_up.dart';
 import 'package:mobile/provider/auth.dart';
 import 'package:mobile/widget/button_widget.dart';
 import 'package:provider/provider.dart';
 
 Future<Profile> fetchProfile(String jwtToken) async {
-  final response = await http.get(Uri.parse('https://apap-059.cs.ui.ac.id/api/user'),
+  final response = await http.get(
+      Uri.parse('https://apap-059.cs.ui.ac.id/api/user'),
       headers: <String, String>{
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': 'Bearer $jwtToken'
@@ -159,10 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => TopUp(
-                                          name: name,
-                                          email: email,
-                                          jwtToken: jwtToken)));
+                                      builder: (context) => TopUp()));
                             },
                           ),
                         ),

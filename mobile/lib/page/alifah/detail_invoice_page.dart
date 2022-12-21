@@ -5,6 +5,17 @@ import 'package:http/http.dart' as http;
 
 import '../brev/list_invoices_page.dart';
 
+Future<http.Response> settle(String code, String jwtToken) async {
+  http.Response response = await http.put(
+      Uri.parse("localhost:8081/api/invoice/settle/$code"),
+      headers: <String, String>{
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Authorization': 'Bearer $jwtToken'
+      });
+
+  return response;
+}
+
 Future<Invoice> fetchInvoice(String jwtToken, String code) async {
   String uri = 'https://apap-059.cs.ui.ac.id/api/invoice/detail/$code';
   final response = await http.get(
@@ -21,7 +32,6 @@ Future<Invoice> fetchInvoice(String jwtToken, String code) async {
   var data = jsonDecode(utf8.decode(response.bodyBytes));
 
   return Invoice.fromJson(data);
-
 }
 
 class Invoice {
@@ -52,7 +62,6 @@ class Invoice {
 class DetailInvoicePage extends StatefulWidget {
   final String jwtToken;
   final String code;
-
   const DetailInvoicePage({
     Key? key,
     required this.jwtToken,
@@ -67,6 +76,7 @@ class _DetailInvoicePageState extends State<DetailInvoicePage> {
   late String jwtToken;
   late String code;
   late Future<Invoice> invoice;
+  late String _message;
 
   @override
   void initState() {
@@ -74,6 +84,7 @@ class _DetailInvoicePageState extends State<DetailInvoicePage> {
     jwtToken = widget.jwtToken;
     code = widget.code;
     invoice = fetchInvoice(jwtToken, code);
+    _message = "";
   }
 
   @override
@@ -94,26 +105,40 @@ class _DetailInvoicePageState extends State<DetailInvoicePage> {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                        return Card(
-                            child: Column(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Text("Nomor Tagihan : ${snapshot.data!.code}"),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Text("Tanggal Terbuat : ${translateDate(snapshot.data!.dateIssued)}"),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Text("Status Pembayaran : ${translateStatus(snapshot.data!.isPaid)}"),
-                                ),
-                                ElevatedButton(
-                                    onPressed: () {
-                                    }, child: const Text("Kembali")),
-                              ],
-                            ));
+                return Card(
+                    child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Text("Nomor Tagihan : ${snapshot.data!.code}"),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Text(
+                          "Tanggal Terbuat : ${translateDate(snapshot.data!.dateIssued)}"),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Text(
+                          "Status Pembayaran : ${translateStatus(snapshot.data!.isPaid)}"),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          final response = await settle(code, jwtToken);
+                          print(jsonDecode(response.body));
+                          if (response.statusCode == 200) {
+                            setState(() {
+                              _message = "Pembayaran berhasil";
+                            });
+                          } else {
+                            setState(() {
+                              _message = "Saldo tidak mencukupi";
+                            });
+                          }
+                        },
+                        child: const Text("Bayar")),
+                  ],
+                ));
               }
           }
         },

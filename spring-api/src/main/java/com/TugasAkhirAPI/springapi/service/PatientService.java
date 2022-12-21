@@ -1,4 +1,4 @@
-package com.TugasAkhirAPI.springapi.service.User;
+package com.TugasAkhirAPI.springapi.service;
 
 import com.TugasAkhirAPI.springapi.dto.auth.RegisterRequest;
 import com.TugasAkhirAPI.springapi.model.User.PatientModel;
@@ -26,11 +26,11 @@ public class PatientService {
         patient.setRole("PATIENT");
         return patientDB.save(patient);
     }
+
     public PatientModel update(PatientModel patient){
         patientDB.save(patient);
         return patient;
     }
-
     public PatientModel getPatientByUsername(String username){
         return patientDB.findByUsername(username);
     }
